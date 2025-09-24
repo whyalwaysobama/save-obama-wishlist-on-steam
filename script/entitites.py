@@ -19,7 +19,7 @@ class PhysicsEntity:
     def set_action (self, action) :
         if action != self.action :
             self.action = action
-            self.animation = self.assets [self.e_type + '/' + self.action].copy()
+            self.animation = self.game.assets [self.type + '/' + self.action].copy()
 
     def update(self, tilemap, movement=(0, 0)):
         self.collisions = {'up': False, 'down': False, 'right': False, 'left': False}
@@ -79,8 +79,8 @@ class Player (PhysicsEntity) :
         if self.collisions ['down'] :
             self.air_time = 0
         if self.air_time > 4: 
-            self.set_action ('jump')
+                self.set_action ('jump')
         elif movement[0] != 0: 
             self.set_action ('run')
         else: 
-            self.set_action('idle')
+            self.set_action('idle') 

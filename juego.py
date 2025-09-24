@@ -26,9 +26,9 @@ class Game:
             'player': load_image('Reptiliano PJ/idle/pjbien.png', (12, 18)), 
             'buttons': load_images("botones"),
             'background': load_image("DJ Totote Fondo/DJ totote prime.png", (320, 240)),
-            'player/idle' : Animation(load_images("Reptiliano PJ/idle"), img_dur=6)
+            'player/idle' : Animation(load_images("Reptiliano PJ/idle"), img_dur=18)
         }
-        
+
         # cargar fondo del menú
         self.menu_bg = load_image("Obama_PJ/Menu_chad_sin_botones.png", (320, 240))
         
