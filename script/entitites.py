@@ -12,6 +12,7 @@ class PhysicsEntity:
         self.anim_offset = (-3, -3)
         self.flip = False
         self.set_action ('idle')
+        self.anim_offset = (0,0)
 
     def rect(self):
         return pygame.Rect(self.pos[0], self.pos[1], self.size[0], self.size[1]) # funcion para hacer mas rapido
@@ -76,6 +77,10 @@ class Player (PhysicsEntity) :
     def update(self, tilemap, movement=(0, 0)) :
         super().update(tilemap, movement=movement) 
         self.air_time += 1
+        """for event in pygame.event.get() :
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1 :
+                    self.set_action ('save')"""
         if self.collisions ['down'] :
             self.air_time = 0
         if self.air_time > 4: 

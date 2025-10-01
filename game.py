@@ -28,7 +28,8 @@ class Game:
             'background': load_image("DJ Totote Fondo/DJ totote prime.png", (320, 240)),
             'player/idle' : Animation(load_images("Reptiliano PJ/idle"), img_dur=18),
             'player/run' : Animation(load_images("Reptiliano PJ/run"), img_dur=6),
-            'player/jump' : Animation(load_images("Reptiliano PJ/jump"), img_dur=18, loop=False),
+            'player/jump' : Animation(load_images("Reptiliano PJ/jump"), img_dur=10, loop=False),
+            'player/save' : Animation(load_images("Reptiliano PJ/salvador"), img_dur=18, loop=False),
         }
 
         # cargar fondo del menú

@@ -17,8 +17,7 @@ class Editor:
         # cargar assets
         self.assets = {
             'caja': load_images('Tiles/caja', (16,16)),
-            'piso': load_images('Tiles/pisos', (16,16)),
-            'player': load_image('Reptiliano PJ/idle/pjbien.png', (12, 18)), 
+            'piso': load_images('Tiles/pisos', (16,16)), 
         }
 
         self.movement = [False, False, False, False]
@@ -49,37 +48,36 @@ class Editor:
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit() # para salir
-                    if event.type == pygame.MOUSEBUTTONDOWN :
-                        if event.button == 1 :
-                            self.clicking = True 
-                        if event.button == 3 :
-                            self.right_clicking = True
-                        if event.button == 4 :
-                            self.tile_group = (self.tile_group - 1) % len (self.tile_list)
-                        if event.button == 5 :
-                            self.tile_group = (self.tile_group + 1) % len (self.tile_list)
-                       
-                    if event.type == pygame.KEYDOWN:
-                        if event.key == pygame.K_LEFT or event.key == pygame.K_a:
-                            self.movement[0] = True
-                        if event.key == pygame.K_RIGHT or event.key == pygame.K_d:
-                            self.movement[1] = True
-                        if event.key == pygame.K_UP or pygame.K_w :
-                            self.movement [2] = True
-                        if event.key == pygame.K_DOWN or pygame.K_s :
-                            self.movement [3] = True
-                        if event.key == pygame.K_ESCAPE:
-                            self.back_to_menu()  # volver al menú con ESC
-                    if event.type == pygame.KEYUP:
-                        if event.key == pygame.K_LEFT or event.key == pygame.K_a:
-                            self.movement[0] = False
-                        if event.key == pygame.K_RIGHT or event.key == pygame.K_d:
-                            self.movement[1] = False
-                        if event.key == pygame.K_UP or pygame.K_w:
-                            self.movement [2] = False
-                        if event.key == pygame.K_DOWN or pygame.K_s :
-                            self.movement [3] = False            
-            
+                if event.type == pygame.MOUSEBUTTONDOWN :
+                    if event.button == 1 :
+                        self.clicking = True 
+                    if event.button == 3 :
+                        self.right_clicking = True
+                    if event.button == 4 :
+                        self.tile_group = (self.tile_group - 1) % len (self.tile_list)
+                    if event.button == 5 :
+                        self.tile_group = (self.tile_group + 1) % len (self.tile_list)
+                    
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_LEFT or event.key == pygame.K_a:
+                        self.movement[0] = True
+                    if event.key == pygame.K_RIGHT or event.key == pygame.K_d:
+                        self.movement[1] = True
+                    if event.key == pygame.K_UP or pygame.K_w :
+                        self.movement [2] = True
+                    if event.key == pygame.K_DOWN or pygame.K_s :
+                        self.movement [3] = True
+
+                if event.type == pygame.KEYUP:
+                    if event.key == pygame.K_LEFT or event.key == pygame.K_a:
+                        self.movement[0] = False
+                    if event.key == pygame.K_RIGHT or event.key == pygame.K_d:
+                        self.movement[1] = False
+                    if event.key == pygame.K_UP or pygame.K_w:
+                        self.movement [2] = False
+                    if event.key == pygame.K_DOWN or pygame.K_s :
+                        self.movement [3] = False            
+        
             self.screen.blit(pygame.transform.scale(self.display, self.screen.get_size()), (0, 0)) # escalar a pantalla
             pygame.display.update()
             self.clock.tick(60)
