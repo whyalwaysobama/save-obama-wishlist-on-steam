@@ -18,6 +18,7 @@ class Editor:
         self.assets = {
             'caja': load_images('Tiles/caja', (16,16)),
             'piso': load_images('Tiles/pisos', (16,16)), 
+            'silla': load_images('Tiles/silla', (10,10)),
         }
 
         self.movement = [False, False, False, False]

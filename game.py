@@ -24,6 +24,7 @@ class Game:
         self.assets = {
             'caja': load_images('Tiles/caja', (16,16)),
             'piso': load_images('Tiles/pisos', (16,16)),
+            'silla': load_images('Tiles/silla'),
             'player': load_image('Reptiliano PJ/idle/pjbien.png', (12, 18)), 
             'buttons': load_images("botones"),
             'background': load_image("DJ Totote Fondo/DJ totote prime.png", (320, 240)),
