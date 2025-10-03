@@ -74,13 +74,14 @@ class Player (PhysicsEntity) :
         super().__init__(game,'player', pos, size) 
         self.air_time = 0
 
-    def update(self, tilemap, movement=(0, 0)) :
+
+    def update(self, tilemap, movement=(0, 0), clicking=False) :
         super().update(tilemap, movement=movement) 
         self.air_time += 1
-        """for event in pygame.event.get() :
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                if event.button == 1 :
-                    self.set_action ('save')"""
+
+        
+        if clicking :
+            self.set_action("save")
         if self.collisions ['down'] :
             self.air_time = 0
         if self.air_time > 4: 

@@ -1,4 +1,4 @@
-import pygame
+import pygame, json
 
 NEIGHBOR_OFFSETS = [(-1, 0), (-1, -1), (0, -1), (1, -1), (1, 0), (0, 0), (-1, 1), (0, 1), (1, 1)] # offsets para tiles vecinos
 PHYSICS_TILES = {'piso', 'caja'} # que tiles tienen colision
@@ -15,7 +15,6 @@ class Tilemap:
         for i in range(10):
             self.tilemap[str(3 + i) + ';10'] = {'type': 'piso', 'variant': 1, 'pos': (3 + i, 10)} # 10 pisos seguidos
             self.tilemap['10;' + str(5 + i)] = {'type': 'caja', 'variant': 0, 'pos': (10, 5 + i)} # una pared de cajas
-    
 
     def tiles_around(self, pos):
         tiles = []
@@ -26,7 +25,21 @@ class Tilemap:
                 tiles.append(self.tilemap[check_loc])
         return tiles
         # detecta las 9 tiles alredor del pj
+
+    def save(self, path) :
+        f = open(path, "w")
+        json.dump({"tilemap" : self.tilemap, "tile_size" : self.tile_size, "offgrid" : self.offgrid_tiles}, f)
+        f.close()
+
+    def load (self, path) :
+        f = open(path, "r")
+        map_data = json.load (f)
+        f.close()
     
+        self.tilemap = map_data['tilemap']
+        self.tile_size = map_data['tile_size']
+        self.offgrid_tiles = map_data['offgrid']
+
     def physics_rects_around(self, pos):
         rects = []
         for tile in self.tiles_around(pos):

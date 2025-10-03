@@ -12,6 +12,7 @@ class Game:
         self.screen = pygame.display.set_mode((1054, 512))
         self.display = pygame.Surface((320, 240))
         self.clock = pygame.time.Clock()
+        self.clicking = False
         
         # estado del juego
         self.game_state = "MENU"  # menu playing
@@ -68,7 +69,7 @@ class Game:
                 render_scroll = (int(self.scroll[0]), int(self.scroll[1]))
 
                 self.tilemap.render(self.display, offset=self.scroll)
-                self.player.update(self.tilemap, (self.movement[1] - self.movement[0], 0))
+                self.player.update(self.tilemap, (self.movement[1] - self.movement[0], 0), clicking=self.clicking)
                 self.player.render(self.display, offset = render_scroll)
 
             
@@ -91,11 +92,14 @@ class Game:
                             self.player.velocity[1] = -3
                         if event.key == pygame.K_ESCAPE:
                             self.back_to_menu()  # volver al menú con ESC
+                    if event.type == pygame.MOUSEBUTTONDOWN :
+                        if event.button == 1 :
+                            self.clicking = True
                     if event.type == pygame.KEYUP:
                         if event.key == pygame.K_LEFT or event.key == pygame.K_a:
                             self.movement[0] = False
                         if event.key == pygame.K_RIGHT or event.key == pygame.K_d:
-                            self.movement[1] = False            
+                            self.movement[1] = False
             
             self.screen.blit(pygame.transform.scale(self.display, self.screen.get_size()), (0, 0)) # escalar a pantalla
             pygame.display.update()
