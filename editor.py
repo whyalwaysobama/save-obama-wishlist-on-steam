@@ -18,7 +18,10 @@ class Editor:
         self.assets = {
             'caja': load_images('Tiles/caja', (16,16)),
             'piso': load_images('Tiles/pisos', (16,16)), 
-            'silla': load_images('Tiles/silla', (10,10)),
+            'silla': load_images('Tiles/silla', (8,6)),
+            'barrier' : load_images('Tiles/barrier'),
+            'obama' : load_images('Obama_PJ'),
+            'laser' : load_images('Tiles/laser')
         }
 
         self.movement = [False, False, False, False]
@@ -123,6 +126,8 @@ class Editor:
                         self.shift = True
                     if event.key == pygame.K_g :
                         self.ongrid = not self.ongrid
+                    if event.key == pygame.K_t :
+                        self.tilemap.autotile()
                     if event.key == pygame.K_o :
                         self.tilemap.save('map.json')
 

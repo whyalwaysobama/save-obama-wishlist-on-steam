@@ -1,7 +1,21 @@
 import pygame, json
 
+AUTOTILES_MAP = {
+    tuple(sorted([(1, 0), (0, 1)])): 0,
+    tuple(sorted([(1, 0), (0, 1), (-1, 0)])): 1,
+    tuple(sorted([(-1, 0), (0, 1)])): 2, 
+    tuple(sorted([(-1, 0), (0, -1), (0, 1)])): 3,
+    tuple(sorted([(-1, 0), (0, -1)])): 4,
+    tuple(sorted([(-1, 0), (0, -1), (1, 0)])): 5,
+    tuple(sorted([(1, 0), (0, -1)])): 6,
+    tuple(sorted([(1, 0), (0, -1), (0, 1)])): 7,
+    tuple(sorted([(1, 0), (-1, 0), (0, 1), (0, -1)])): 8,
+    
+}
+
 NEIGHBOR_OFFSETS = [(-1, 0), (-1, -1), (0, -1), (1, -1), (1, 0), (0, 0), (-1, 1), (0, 1), (1, 1)] # offsets para tiles vecinos
-PHYSICS_TILES = {'piso', 'caja'} # que tiles tienen colision
+PHYSICS_TILES = {'piso', 'caja', 'barrier'} # que tiles tienen colision
+AUTOTILES_TYPES = {'piso'}
 
 class Tilemap:
     
@@ -47,6 +61,33 @@ class Tilemap:
                 rects.append(pygame.Rect(tile['pos'][0] * self.tile_size, tile['pos'][1] * self.tile_size, self.tile_size, self.tile_size))
         return rects
         # detecta cuales de esas 9 tiles tiene colisiones
+
+    def check_obama_collision(self, player_rect):
+        for tile in self.tiles_around((player_rect.centerx, player_rect.centery)):
+            if tile['type'] == 'obama':
+                obama_rect = pygame.Rect(
+                    tile['pos'][0] * self.tile_size, 
+                    tile['pos'][1] * self.tile_size, 
+                    self.tile_size, 
+                    self.tile_size
+                )
+                if player_rect.colliderect(obama_rect):
+                    return True
+        return False
+
+    def autotile (self) :
+        for loc in self.tilemap :
+            tile = self.tilemap [loc]
+            neighbors =  set()
+            for shift in [(1,0), (-1,0), (0,1), (0,-1)] :
+                check_loc = str(tile['pos'][0] + shift[0]) + ';' + str(tile['pos'][1] + shift[1])
+                if check_loc in self.tilemap :
+                    if self.tilemap[check_loc]['type'] == tile['type'] :
+                        neighbors.add(shift)
+            neighbors = tuple(sorted(neighbors))
+            if (tile['type'] in AUTOTILES_TYPES) and (neighbors in AUTOTILES_MAP) :
+                tile['variant'] = AUTOTILES_MAP[neighbors]
+
 
     def render(self, surf, offset = (0,0)):
         for tile in self.offgrid_tiles:

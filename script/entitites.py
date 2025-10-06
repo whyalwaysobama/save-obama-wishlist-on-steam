@@ -69,24 +69,65 @@ class PhysicsEntity:
     def render(self, surf, offset = (0,0)):
        surf.blit(pygame.transform.flip(self.animation.img(), self.flip, False), (self.pos [0] - offset [0] + self.anim_offset[0], self.pos [1] - offset [1] + self.anim_offset[1]))
       
-class Player (PhysicsEntity) :
+class Player(PhysicsEntity):
     def __init__(self, game, pos, size):
-        super().__init__(game,'player', pos, size) 
+        super().__init__(game, 'player', pos, size) 
         self.air_time = 0
+        self.animation_locked = False
+        self.dashing = False
+        self.dash_time = 0
+        self.dash_cooldown = 0  # Nuevo: cooldown del dash
 
-
-    def update(self, tilemap, movement=(0, 0), clicking=False) :
+    def update(self, tilemap, movement=(0, 0), clicking=False):
+        # Reducir el cooldown cada frame
+        if self.dash_cooldown > 0:
+            self.dash_cooldown -= 1
+        
+        # Si está haciendo el dash
+        if self.dashing:
+            dash_direction = -1 if self.flip else 1
+            movement = (dash_direction * 1.5, movement[1])
+            
+            # Control del arco según el tiempo del dash
+            if self.dash_time < 5:
+                self.velocity[1] = -2.5
+            elif self.dash_time < 12:
+                self.velocity[1] = -0.5
+            
+            self.dash_time += 1
+        
         super().update(tilemap, movement=movement) 
         self.air_time += 1
 
-        
-        if clicking :
-            self.set_action("save")
-        if self.collisions ['down'] :
+        if self.collisions['down']:
             self.air_time = 0
-        if self.air_time > 4: 
-            self.set_action ('jump')
+            if self.dashing:
+                self.animation_locked = False
+                self.dashing = False
+                self.dash_time = 0
+                return
+        
+        if self.dashing:
+            return
+        
+        if self.animation_locked:
+            if self.animation.done:
+                self.animation_locked = False
+                self.dashing = False
+                self.dash_time = 0
+            else:
+                return
+        
+        # Solo puede dashear si no está en cooldown
+        if clicking and self.dash_cooldown == 0:
+            self.set_action("save")
+            self.animation_locked = True
+            self.dashing = True
+            self.dash_time = 0
+            self.dash_cooldown = 60  # 60 frames = 1 segundo (ajustá esto)
+        elif self.air_time > 4: 
+            self.set_action('jump')
         elif movement[0] != 0: 
-            self.set_action ('run')
+            self.set_action('run')
         else: 
-            self.set_action('idle') 
+            self.set_action('idle')

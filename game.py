@@ -27,6 +27,9 @@ class Game:
             'silla': load_images('Tiles/silla'),
             'player': load_image('Reptiliano PJ/idle/pjbien.png', (12, 18)), 
             'buttons': load_images("botones"),
+            'barrier' : load_images('Tiles/barrier'),
+            'obama' : load_images("Obama_PJ"),
+            'laser' : load_images('Tiles/laser'),
             'background': load_image("DJ Totote Fondo/DJ totote prime.png", (320, 240)),
             'player/idle' : Animation(load_images("Reptiliano PJ/idle"), img_dur=18),
             'player/run' : Animation(load_images("Reptiliano PJ/run"), img_dur=6),
@@ -40,7 +43,11 @@ class Game:
         # crear entidades del juego
         self.player = Player(self, (50, 50), (11, 16))
         self.tilemap = Tilemap(self, tile_size=16)
+        self.tilemap.load('map.json')
         
+        self.level = 0
+        self.load_level(self.level)
+
         # crear menú
         self.menu = Menu(self)
         self.scroll = [0, 30]
@@ -73,6 +80,8 @@ class Game:
                 self.player.update(self.tilemap, (self.movement[1] - self.movement[0], 0), clicking=self.clicking)
                 self.player.render(self.display, offset = render_scroll)
 
+                if self.tilemap.check_obama_collision (self.player.rect()) :
+                    self.game_state = "WIN"
             
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -89,18 +98,26 @@ class Game:
                             self.movement[0] = True
                         if event.key == pygame.K_RIGHT or event.key == pygame.K_d:
                             self.movement[1] = True
-                        if event.key == pygame.K_UP or event.key == pygame.K_w:
+                        if (event.key == pygame.K_UP or event.key == pygame.K_w or event.key == pygame.K_SPACE) and not self.player.dashing and self.player.air_time < 4 :
                             self.player.velocity[1] = -3
+                        if event.key == pygame.K_e: 
+                            self.clicking = True
                         if event.key == pygame.K_ESCAPE:
                             self.back_to_menu()  # volver al menú con ESC
-                    if event.type == pygame.MOUSEBUTTONDOWN :
-                        if event.button == 1 :
-                            self.clicking = True
                     if event.type == pygame.KEYUP:
                         if event.key == pygame.K_LEFT or event.key == pygame.K_a:
                             self.movement[0] = False
                         if event.key == pygame.K_RIGHT or event.key == pygame.K_d:
                             self.movement[1] = False
+                        if event.key == pygame.K_e:
+                            self.clicking = False 
+                elif self.game_state == "WIN":
+                    self.display.blit(load_image("fondo/win.png", (320, 240)), (0, 0))
+                    if event.type == pygame.KEYDOWN :
+                        if event.key == pygame.K_ESCAPE:
+                            self.back_to_menu()  
+
+                    
             
             self.screen.blit(pygame.transform.scale(self.display, self.screen.get_size()), (0, 0)) # escalar a pantalla
             pygame.display.update()
