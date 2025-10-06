@@ -226,6 +226,11 @@ class Menu:
             # renderizar botón de volver
             for button in self.credits_buttons:
                 button.render(surf)
+
+            for event in pygame.event.get() :
+                if event.type == pygame.KEYDOWN :
+                    if event.key == pygame.K_ESCAPE:
+                        self.back_to_main()  
                 
         elif self.current_menu == "TUTORIAL":
             # renderizar fondo de tutorial
@@ -237,3 +242,8 @@ class Menu:
             # renderizar botón de volver
             for button in self.tutorial_buttons:
                 button.render(surf)
+            
+            for event in pygame.event.get() :
+                if event.type == pygame.KEYDOWN :
+                    if event.key == pygame.K_ESCAPE:
+                        self.back_to_main()  

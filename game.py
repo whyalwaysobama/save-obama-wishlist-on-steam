@@ -45,8 +45,8 @@ class Game:
         self.tilemap = Tilemap(self, tile_size=16)
         self.tilemap.load('map.json')
         
-        self.level = 0
-        self.load_level(self.level)
+        #self.level = 0
+        #self.load_level(self.level)
 
         # crear menú
         self.menu = Menu(self)
