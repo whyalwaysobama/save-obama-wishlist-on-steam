@@ -13,6 +13,10 @@ class Game:
         self.display = pygame.Surface((320, 240))
         self.clock = pygame.time.Clock()
         self.clicking = False
+        self.timer = 0
+        self.timer_running = False
+        self.max_time = 60
+
         
         # estado del juego
         self.game_state = "MENU"  # menu playing
@@ -33,8 +37,6 @@ class Game:
             'laser' : load_images('Tiles/laser'),
             'barril' : load_images('Tiles/barbarril'),
             'estrella' : load_images('Tiles/estrella'),
-            'people' : load_images('Tiles/personas'),
-            'pisos variables' : load_images('Tiles/pisos variables'),
             'background': load_image("DJ Totote Fondo/DJ totote prime.png", (320, 240)),
             'player/idle' : Animation(load_images("Reptiliano PJ/idle"), img_dur=18),
             'player/run' : Animation(load_images("Reptiliano PJ/run"), img_dur=6),
@@ -48,7 +50,7 @@ class Game:
         # crear entidades del juego
         self.player = Player(self, (50, 50), (11, 16))
         self.tilemap = Tilemap(self, tile_size=16)
-        self.tilemap.load('tuto.json')
+        self.tilemap.load('0.json')
         
         #self.level = 0
         #self.load_level(self.level)
@@ -70,6 +72,8 @@ class Game:
         self.player.dash_cooldown = 0  
         self.player.set_action("idle")  
         self.movement = [False, False]  
+        self.timer = 0
+        self.timer_running = True
     
     def back_to_menu(self):
         # volver al menú
@@ -96,6 +100,13 @@ class Game:
 
                 if self.tilemap.check_obama_collision (self.player.rect()) :
                     self.game_state = "WIN"
+            
+            if self.timer_running :
+                self.timer += 1/60
+                if self.timer >= self.max_time :
+                    self.timer = self.max_time
+                    self.timer_running = False
+                    self.game_state = "LOSE"  
             
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
