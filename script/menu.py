@@ -65,7 +65,7 @@ class Menu:
         # cargar fondos adicionales si existen
         self.credits_bg = load_image("fondo/fondo_sin_obama.png", (320, 240))
         self.tutorial_bg = load_image("fondo/fondo_sin_obama.png", (320, 240))
-        self.levels_bg = load_image("Niveles/MENU NIVELES.png", (320, 240))
+        self.levels_bg = load_image("Niveles/Niveles sin sida.png", (320, 240))
         
     
     def create_buttons(self):
