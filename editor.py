@@ -21,7 +21,9 @@ class Editor:
             'silla': load_images('Tiles/silla', (8,6)),
             'barrier' : load_images('Tiles/barrier'),
             'obama' : load_images('Obama_PJ'),
-            'laser' : load_images('Tiles/laser')
+            'laser' : load_images('Tiles/laser'),
+            'barril' : load_images('Tiles/barbarril'),
+            'estrella' : load_images('Tiles/estrella'),
         }
 
         self.movement = [False, False, False, False]
@@ -129,7 +131,7 @@ class Editor:
                     if event.key == pygame.K_t :
                         self.tilemap.autotile()
                     if event.key == pygame.K_o :
-                        self.tilemap.save('map.json')
+                        self.tilemap.save('0.json')
 
                 if event.type == pygame.KEYUP:
                     if event.key == pygame.K_LEFT or event.key == pygame.K_a:
