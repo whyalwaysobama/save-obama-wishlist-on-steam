@@ -25,6 +25,7 @@ class Editor:
             'barril' : load_images('Tiles/barbarril'),
             'estrella' : load_images('Tiles/estrella'),
             'people' : load_images('Tiles/personas'),
+            'pisos variables' : load_images('Tiles/pisos variables'),
         }
 
         self.movement = [False, False, False, False]
@@ -132,7 +133,7 @@ class Editor:
                     if event.key == pygame.K_t :
                         self.tilemap.autotile()
                     if event.key == pygame.K_o :
-                        self.tilemap.save('1.json')
+                        self.tilemap.save('tuto.json')
 
                 if event.type == pygame.KEYUP:
                     if event.key == pygame.K_LEFT or event.key == pygame.K_a:

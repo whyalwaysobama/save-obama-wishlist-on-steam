@@ -34,6 +34,7 @@ class Game:
             'barril' : load_images('Tiles/barbarril'),
             'estrella' : load_images('Tiles/estrella'),
             'people' : load_images('Tiles/personas'),
+            'pisos variables' : load_images('Tiles/pisos variables'),
             'background': load_image("DJ Totote Fondo/DJ totote prime.png", (320, 240)),
             'player/idle' : Animation(load_images("Reptiliano PJ/idle"), img_dur=18),
             'player/run' : Animation(load_images("Reptiliano PJ/run"), img_dur=6),
@@ -47,7 +48,7 @@ class Game:
         # crear entidades del juego
         self.player = Player(self, (50, 50), (11, 16))
         self.tilemap = Tilemap(self, tile_size=16)
-        self.tilemap.load('1.json')
+        self.tilemap.load('tuto.json')
         
         #self.level = 0
         #self.load_level(self.level)
