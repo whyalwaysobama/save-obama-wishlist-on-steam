@@ -31,7 +31,7 @@ class Editor:
         self.tilemap = Tilemap(self, tile_size=16)
 
         try: 
-            self.tilemap.load("map.json")
+            self.tilemap.load("0.json")
         except FileNotFoundError:
             pass
         
@@ -50,7 +50,7 @@ class Editor:
     def run(self):
         # arranque
         while True:
-            self.display.fill ((0, 0, 0))  # fondo 
+            self.display.fill ((255,255, 255))  # fondo 
 
             self.scroll[0] += (self.movement[1] - self.movement[0]) * 2
             self.scroll[1] += (self.movement[3] - self.movement[2]) * 2
