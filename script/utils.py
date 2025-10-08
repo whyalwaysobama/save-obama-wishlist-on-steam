@@ -6,9 +6,13 @@ BASE_IMG_PATH = 'img/'
 
 def load_image(path, scale=None):
     img = pygame.image.load(BASE_IMG_PATH + path).convert()
-    img.set_colorkey((0, 0, 0))
+
     if scale :
         img = pygame.transform.scale(img, scale)
+    if path == "Niveles/Niveles sin sida.png" :
+        return img
+    else:   
+        img.set_colorkey((0, 0, 0))
     return img
     # carga una imagen con la escala dada y le saca el fondo
 

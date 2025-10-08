@@ -65,7 +65,7 @@ class Menu:
         # cargar fondos adicionales si existen
         self.credits_bg = load_image("fondo/fondo_sin_obama.png", (320, 240))
         self.tutorial_bg = load_image("fondo/fondo_sin_obama.png", (320, 240))
-        self.levels_bg = load_image("Niveles/MENU NIVELES.png", (320, 240))
+        self.levels_bg = load_image("Niveles/Niveles sin sida.png", (320, 240))
         
     
     def create_buttons(self):
@@ -219,9 +219,15 @@ class Menu:
         elif self.current_menu == "CREDITS":
             for button in self.credits_buttons:
                 button.is_clicked(scaled_mouse_pos, mouse_clicked)
+            # use the passed event to detect ESC (don't poll events here)
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                self.back_to_main()
         elif self.current_menu == "TUTORIAL":
             for button in self.tutorial_buttons:
                 button.is_clicked(scaled_mouse_pos, mouse_clicked)
+            # use the passed event to detect ESC (don't poll events here)
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                self.back_to_main()
         elif self.current_menu == "LEVELS":
             if self.modal_open:
                 # manejar clicks en el modal
@@ -280,6 +286,7 @@ class Menu:
             "Flecha arriba / W: Saltar",
             "Flecha izq / A: Mover izquierda",
             "Flecha der / D: Mover derecha", 
+            "E: Tirarse",
             "",
             "ESC: Volver al menu",
         ]
