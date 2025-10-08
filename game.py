@@ -33,6 +33,7 @@ class Game:
             'laser' : load_images('Tiles/laser'),
             'barril' : load_images('Tiles/barbarril'),
             'estrella' : load_images('Tiles/estrella'),
+            'people' : load_images('Tiles/personas'),
             'background': load_image("DJ Totote Fondo/DJ totote prime.png", (320, 240)),
             'player/idle' : Animation(load_images("Reptiliano PJ/idle"), img_dur=18),
             'player/run' : Animation(load_images("Reptiliano PJ/run"), img_dur=6),

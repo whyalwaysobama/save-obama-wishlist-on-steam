@@ -24,6 +24,7 @@ class Editor:
             'laser' : load_images('Tiles/laser'),
             'barril' : load_images('Tiles/barbarril'),
             'estrella' : load_images('Tiles/estrella'),
+            'people' : load_images('Tiles/personas'),
         }
 
         self.movement = [False, False, False, False]
@@ -31,7 +32,7 @@ class Editor:
         self.tilemap = Tilemap(self, tile_size=16)
 
         try: 
-            self.tilemap.load("1.json")
+            self.tilemap.load("tuto.json")
         except FileNotFoundError:
             pass
         
