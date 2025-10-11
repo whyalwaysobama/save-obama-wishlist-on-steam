@@ -14,7 +14,7 @@ AUTOTILES_MAP = {
 }
 
 NEIGHBOR_OFFSETS = [(-1, 0), (-1, -1), (0, -1), (1, -1), (1, 0), (0, 0), (-1, 1), (0, 1), (1, 1)] # offsets para tiles vecinos
-PHYSICS_TILES = {'piso', 'caja', 'barrier'} # que tiles tienen colision
+PHYSICS_TILES = {'piso', 'caja', 'barrier','barril','pisos variables',"people"} # que tiles tienen colision
 AUTOTILES_TYPES = {'piso'}
 
 class Tilemap:
@@ -72,6 +72,19 @@ class Tilemap:
                     self.tile_size
                 )
                 if player_rect.colliderect(obama_rect):
+                    return True
+        return False
+    
+    def check_star_collision(self, player_rect):
+        for tile in self.tiles_around((player_rect.centerx, player_rect.centery)):
+            if tile['type'] == 'estrella':
+                estrella_rect = pygame.Rect(
+                    tile['pos'][0] * self.tile_size, 
+                    tile['pos'][1] * self.tile_size, 
+                    self.tile_size, 
+                    self.tile_size
+                )
+                if player_rect.colliderect(estrella_rect):
                     return True
         return False
 

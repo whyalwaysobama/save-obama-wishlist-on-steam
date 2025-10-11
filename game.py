@@ -13,6 +13,10 @@ class Game:
         self.display = pygame.Surface((320, 240))
         self.clock = pygame.time.Clock()
         self.clicking = False
+        self.timer = 0
+        self.timer_running = False
+        self.max_time = 60
+
         
         # estado del juego
         self.game_state = "MENU"  # menu playing
@@ -27,9 +31,12 @@ class Game:
             'silla': load_images('Tiles/silla'),
             'player': load_image('Reptiliano PJ/idle/pjbien.png', (12, 18)), 
             'buttons': load_images("botones"),
+            'p_button': load_images("Niveles/botones_jugar"),
             'barrier' : load_images('Tiles/barrier'),
             'obama' : load_images("Obama_PJ"),
             'laser' : load_images('Tiles/laser'),
+            'barril' : load_images('Tiles/barbarril'),
+            'estrella' : load_images('Tiles/estrella'),
             'background': load_image("DJ Totote Fondo/DJ totote prime.png", (320, 240)),
             'player/idle' : Animation(load_images("Reptiliano PJ/idle"), img_dur=18),
             'player/run' : Animation(load_images("Reptiliano PJ/run"), img_dur=6),
@@ -43,7 +50,7 @@ class Game:
         # crear entidades del juego
         self.player = Player(self, (50, 50), (11, 16))
         self.tilemap = Tilemap(self, tile_size=16)
-        self.tilemap.load('map.json')
+        self.tilemap.load('0.json')
         
         #self.level = 0
         #self.load_level(self.level)
@@ -56,6 +63,17 @@ class Game:
     def start_game(self):
         # inicia el juego
         self.game_state = "PLAYING"
+        self.player.pos = [0, 0]  # posición inicial
+        self.player.velocity = [0, 0]  # velocidad en 0
+        self.player.air_time = 0      
+        self.player.dashing = False  
+        self.player.animation_locked = False
+        self.player.dash_time = 0
+        self.player.dash_cooldown = 0  
+        self.player.set_action("idle")  
+        self.movement = [False, False]  
+        self.timer = 0
+        self.timer_running = True
     
     def back_to_menu(self):
         # volver al menú
@@ -82,6 +100,13 @@ class Game:
 
                 if self.tilemap.check_obama_collision (self.player.rect()) :
                     self.game_state = "WIN"
+            
+            if self.timer_running :
+                self.timer += 1/60
+                if self.timer >= self.max_time :
+                    self.timer = self.max_time
+                    self.timer_running = False
+                    self.game_state = "LOSE"  
             
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:

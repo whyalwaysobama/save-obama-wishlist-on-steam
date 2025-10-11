@@ -21,7 +21,11 @@ class Editor:
             'silla': load_images('Tiles/silla', (8,6)),
             'barrier' : load_images('Tiles/barrier'),
             'obama' : load_images('Obama_PJ'),
-            'laser' : load_images('Tiles/laser')
+            'laser' : load_images('Tiles/laser'),
+            'barril' : load_images('Tiles/barbarril'),
+            'estrella' : load_images('Tiles/estrella'),
+            'people' : load_images('Tiles/personas'),
+            'pisos variables' : load_images('Tiles/pisos variables'),
         }
 
         self.movement = [False, False, False, False]
@@ -29,7 +33,7 @@ class Editor:
         self.tilemap = Tilemap(self, tile_size=16)
 
         try: 
-            self.tilemap.load("map.json")
+            self.tilemap.load("tuto.json")
         except FileNotFoundError:
             pass
         
@@ -48,7 +52,7 @@ class Editor:
     def run(self):
         # arranque
         while True:
-            self.display.fill ((0, 0, 0))  # fondo 
+            self.display.fill ((255,255, 255))  # fondo 
 
             self.scroll[0] += (self.movement[1] - self.movement[0]) * 2
             self.scroll[1] += (self.movement[3] - self.movement[2]) * 2
@@ -129,7 +133,7 @@ class Editor:
                     if event.key == pygame.K_t :
                         self.tilemap.autotile()
                     if event.key == pygame.K_o :
-                        self.tilemap.save('map.json')
+                        self.tilemap.save('tuto.json')
 
                 if event.type == pygame.KEYUP:
                     if event.key == pygame.K_LEFT or event.key == pygame.K_a:
