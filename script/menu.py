@@ -40,7 +40,7 @@ class Button:
 class Menu:
     def __init__(self, game):
         self.game = game
-        self.current_menu = "MAIN"  # "MAIN", "CREDITS", "TUTORIAL", "LEVELS", "LOSE"
+        self.current_menu = "MAIN"  # "MAIN", "CREDITS", "TUTORIAL", "LEVELS"
         
         # estado del modal de niveles
         self.modal_open = False
@@ -57,14 +57,6 @@ class Menu:
             {"rect": pygame.Rect(7, 22, 19, 38), "id": 1, "name": "Nivel 1"},
             {"rect": pygame.Rect(56, 10, 19, 38), "id": 2, "name": "Nivel 2"},
             {"rect": pygame.Rect(75, 52, 19, 38), "id": 3, "name": "Nivel 3"},
-            {"rect": pygame.Rect(75, 52, 19, 38), "id": 4, "name": "Nivel 4"},
-            {"rect": pygame.Rect(75, 52, 19, 38), "id": 5, "name": "Nivel 5"},
-            {"rect": pygame.Rect(75, 52, 19, 38), "id": 6, "name": "Nivel 6"},
-            {"rect": pygame.Rect(75, 52, 19, 38), "id": 7, "name": "Nivel 7"},
-            {"rect": pygame.Rect(75, 52, 19, 38), "id": 8, "name": "Nivel 8"},
-            {"rect": pygame.Rect(75, 52, 19, 38), "id": 9, "name": "Nivel 9"},
-            {"rect": pygame.Rect(75, 52, 19, 38), "id": 10, "name": "Nivel 10"},
-            {"rect": pygame.Rect(75, 52, 19, 38), "id": 11, "name": "Nivel Secreto"},
         ]
         
         # crear botones
@@ -74,7 +66,6 @@ class Menu:
         self.credits_bg = load_image("fondo/fondo_sin_obama.png", (320, 240))
         self.tutorial_bg = load_image("fondo/fondo_sin_obama.png", (320, 240))
         self.levels_bg = load_image("Niveles/Niveles sin sida.png", (320, 240))
-        self.death_bg = load_image("fondo/fondo_sin_obama.png", (320, 240))
         
     
     def create_buttons(self):
@@ -111,7 +102,7 @@ class Menu:
             y=115,
             normal_sprite=button_sprites[2],
             hover_sprite=button_sprites[3],
-            action=self.show_levels,  
+            action=self.show_levels,  # CAMBIADO: ahora va a niveles
             scale=0.4
         )
         
@@ -150,7 +141,6 @@ class Menu:
         self.credits_buttons = [self.volver_button]
         self.tutorial_buttons = [self.volver_button]
         self.levels_buttons = [self.volver_button]  # por ahora solo volver
-        self.death_buttons = [self.volver_button]
     
     def show_levels(self):
         # mostrar selector de niveles
@@ -189,11 +179,6 @@ class Menu:
     def back_to_main(self):
         # volver al menu principal
         self.current_menu = "MAIN"
-        self.game.game_state = "MENU"
-    
-    def show_death (self):
-        # mostrar pantalla de muerte
-        self.current_menu = "LOSE"
     
     def get_scaled_mouse_pos(self):
         # obtener la posición del mouse escalada 
@@ -222,9 +207,6 @@ class Menu:
                 # actualizar botón volver
                 for button in self.levels_buttons:
                     button.update(scaled_mouse_pos)
-        elif self.current_menu == "LOSE":
-            for button in self.death_buttons:
-                button.update(scaled_mouse_pos)
     
     def handle_events(self, event):
         # manejar eventos del menu
@@ -262,11 +244,6 @@ class Menu:
                     # si no clickeó en ningún nivel, verificar botón volver
                     for button in self.levels_buttons:
                         button.is_clicked(scaled_mouse_pos, mouse_clicked)
-        elif self.current_menu == "LOSE":
-            for button in self.death_buttons:
-                button.is_clicked(scaled_mouse_pos, mouse_clicked)
-            if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-                self.back_to_main()
     
     def render_credits_text(self, surf):
         # renderizar texto de creditos
@@ -294,27 +271,6 @@ class Menu:
                 surf.blit(text_surface, text_rect)
             y += 18
     
-    def render_death_text(self, surf):
-        # renderizar texto de creditos
-        font = pygame.font.Font(None, 24)
-        title_font = pygame.font.Font(None, 32)
-        
-        
-        # informacion de créditos
-        credits_lines = [
-            "Fallaste",
-            "",
-            "Obama no pudo ser salvado.",
-        ]
-        
-        y = 60
-        for line in credits_lines:
-            if line:
-                text_surface = font.render(line, True, (255, 255, 255))
-                text_rect = text_surface.get_rect(center=(160, y))
-                surf.blit(text_surface, text_rect)
-            y += 18
-
     def render_tutorial_text(self, surf):
         # renderizar texto de tutorial (controles)
         font = pygame.font.Font(None, 20)
@@ -390,11 +346,7 @@ class Menu:
                 # renderizar botón de volver
                 for button in self.levels_buttons:
                     button.render(surf)
-        elif self.current_menu == "LOSE":
-            surf.blit(load_image("fondo/lose.png", (320, 240)), (0, 0))
-            for button in self.death_buttons:
-                button.render(surf)
-            
+    
     def render_modal(self, surf):
         # dibujar overlay oscuro
         surf.blit(self.overlay, (0, 0))
