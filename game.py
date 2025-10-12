@@ -50,7 +50,7 @@ class Game:
         # crear entidades del juego
         self.player = Player(self, (50, 50), (11, 16))
         self.tilemap = Tilemap(self, tile_size=16)
-        self.tilemap.load('0.json')
+        self.tilemap.load('1.json')
         
         #self.level = 0
         #self.load_level(self.level)
