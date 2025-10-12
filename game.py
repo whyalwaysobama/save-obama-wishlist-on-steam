@@ -15,8 +15,8 @@ class Game:
         self.clicking = False
         self.timer = 0
         self.timer_running = False
-        self.max_time = 60
-
+        self.max_time = 5
+        self.collected_stars = set()
         
         # estado del juego
         self.game_state = "MENU"  # menu playing
@@ -37,6 +37,8 @@ class Game:
             'laser' : load_images('Tiles/laser'),
             'barril' : load_images('Tiles/barbarril'),
             'estrella' : load_images('Tiles/estrella'),
+            'people' : load_images('Tiles/personas'),
+            'pisos variables' : load_images('Tiles/pisos variables'),
             'background': load_image("DJ Totote Fondo/DJ totote prime.png", (320, 240)),
             'player/idle' : Animation(load_images("Reptiliano PJ/idle"), img_dur=18),
             'player/run' : Animation(load_images("Reptiliano PJ/run"), img_dur=6),
@@ -50,10 +52,7 @@ class Game:
         # crear entidades del juego
         self.player = Player(self, (50, 50), (11, 16))
         self.tilemap = Tilemap(self, tile_size=16)
-        self.tilemap.load('0.json')
-        
-        #self.level = 0
-        #self.load_level(self.level)
+        self.tilemap.load('tuto.json')
 
         # crear menú
         self.menu = Menu(self)
@@ -78,12 +77,14 @@ class Game:
     def back_to_menu(self):
         # volver al menú
         self.game_state = "MENU"
+        self.menu.current_menu = "MAIN"
     
     def run(self):
         # arranque
         while True:
             # renderizar segun el estado
             if self.game_state == "MENU":
+                self.timer = 0
                 self.menu.update()
                 self.menu.render(self.display)
             elif self.game_state == "PLAYING":
@@ -98,8 +99,17 @@ class Game:
                 self.player.update(self.tilemap, (self.movement[1] - self.movement[0], 0), clicking=self.clicking)
                 self.player.render(self.display, offset = render_scroll)
 
+                star_collected = self.tilemap.check_star_collision(self.player.rect())
+                if star_collected:
+                    self.collected_stars.add(star_collected)
+
                 if self.tilemap.check_obama_collision (self.player.rect()) :
                     self.game_state = "WIN"
+            
+            elif self.game_state == "LOSE":
+                    self.menu.show_death()
+                    self.menu.update()
+                    self.menu.render(self.display)
             
             if self.timer_running :
                 self.timer += 1/60
@@ -113,7 +123,7 @@ class Game:
                     pygame.quit()
                     sys.exit() # para salir
                 
-                # maneja eventos según el estado
+                # maneja eventos según el estado 
                 if self.game_state == "MENU":
                     self.menu.handle_events(event)
                 elif self.game_state == "PLAYING":
@@ -123,7 +133,7 @@ class Game:
                             self.movement[0] = True
                         if event.key == pygame.K_RIGHT or event.key == pygame.K_d:
                             self.movement[1] = True
-                        if (event.key == pygame.K_UP or event.key == pygame.K_w or event.key == pygame.K_SPACE) and not self.player.dashing and self.player.air_time < 4 :
+                        if (event.key == pygame.K_UP or event.key == pygame.K_w or event.key == pygame.K_SPACE) and not self.player.dashing and self.player.air_time < 6 :
                             self.player.velocity[1] = -3
                         if event.key == pygame.K_e: 
                             self.clicking = True
@@ -141,8 +151,9 @@ class Game:
                     if event.type == pygame.KEYDOWN :
                         if event.key == pygame.K_ESCAPE:
                             self.back_to_menu()  
+                elif self.game_state == "LOSE":
+                    self.menu.handle_events(event)                
 
-                    
             
             self.screen.blit(pygame.transform.scale(self.display, self.screen.get_size()), (0, 0)) # escalar a pantalla
             pygame.display.update()

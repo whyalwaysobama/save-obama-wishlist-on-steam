@@ -82,6 +82,8 @@ class Player(PhysicsEntity):
         # Reducir el cooldown cada frame
         if self.dash_cooldown > 0:
             self.dash_cooldown -= 1
+
+        speed_multiplier = 0.5 if tilemap.check_chair_collision(self.rect()) else 1
         
         # Si está haciendo el dash
         if self.dashing:
@@ -95,6 +97,8 @@ class Player(PhysicsEntity):
                 self.velocity[1] = -0.5
             
             self.dash_time += 1
+        else:
+            movement = (movement[0] * speed_multiplier, movement[1])
         
         super().update(tilemap, movement=movement) 
         self.air_time += 1

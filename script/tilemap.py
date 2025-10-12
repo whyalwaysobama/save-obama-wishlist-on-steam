@@ -78,6 +78,12 @@ class Tilemap:
     def check_star_collision(self, player_rect):
         for tile in self.tiles_around((player_rect.centerx, player_rect.centery)):
             if tile['type'] == 'estrella':
+                tile_loc = str(tile['pos'][0]) + ';' + str(tile['pos'][1])
+                
+                # Si ya fue recolectada, no hacer nada
+                if tile_loc in self.game.collected_stars:
+                    continue
+                    
                 estrella_rect = pygame.Rect(
                     tile['pos'][0] * self.tile_size, 
                     tile['pos'][1] * self.tile_size, 
@@ -85,6 +91,20 @@ class Tilemap:
                     self.tile_size
                 )
                 if player_rect.colliderect(estrella_rect):
+                    return tile_loc  # devuelve la ubicación en lugar de True
+        return None
+    
+    def check_chair_collision(self, player_rect):
+        for tile in self.tiles_around((player_rect.centerx, player_rect.centery)):
+            print(f"tile detectado: {tile["type"]}")
+            if tile['type'] == 'silla':
+                silla_rect = pygame.Rect(
+                    tile['pos'][0] * self.tile_size, 
+                    tile['pos'][1] * self.tile_size, 
+                    self.tile_size, 
+                    self.tile_size
+                )
+                if player_rect.colliderect(silla_rect):
                     return True
         return False
 
@@ -111,6 +131,14 @@ class Tilemap:
                 loc = str(x) + ';' + str(y)
                 if loc in self.tilemap:
                     tile = self.tilemap[loc]
-                    surf.blit(self.game.assets[tile['type']][tile['variant']], (tile['pos'][0] * self.tile_size - offset[0], tile['pos'][1] * self.tile_size - offset[1]))
             
-        
+        # Si es una estrella recolectada, usar variant diferente
+                    if tile['type'] == 'estrella' and loc in self.game.collected_stars:
+                        # Asumiendo que variant 1 es la estrella en blanco y negro
+                        surf.blit(self.game.assets[tile['type']][1], 
+                                (tile['pos'][0] * self.tile_size - offset[0], 
+                                tile['pos'][1] * self.tile_size - offset[1]))
+                    else:
+                        surf.blit(self.game.assets[tile['type']][tile['variant']], 
+                                (tile['pos'][0] * self.tile_size - offset[0], 
+                                tile['pos'][1] * self.tile_size - offset[1]))
