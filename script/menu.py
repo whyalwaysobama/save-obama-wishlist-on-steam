@@ -40,25 +40,43 @@ class Button:
 class Menu:
     def __init__(self, game):
         self.game = game
-        self.current_menu = "MAIN"  # "MAIN", "CREDITS", "TUTORIAL"
+        self.current_menu = "MAIN"  # "MAIN", "CREDITS", "TUTORIAL", "LEVELS"
+        
+        # estado del modal de niveles
+        self.modal_open = False
+        self.selected_level = None
+        
+        # overlay oscuro para el modal
+        self.overlay = pygame.Surface((320, 240))
+        self.overlay.set_alpha(180)  # transparencia
+        self.overlay.fill((0, 0, 0))  # negro
+        
+        # definir zonas clickeables de niveles (x, y, ancho, alto)
+        # AJUSTA ESTAS COORDENADAS SEGÚN DONDE ESTÉN TUS NIVELES EN LA IMAGEN
+        self.level_zones = [
+            {"rect": pygame.Rect(7, 22, 19, 38), "id": 1, "name": "Nivel 1"},
+            {"rect": pygame.Rect(56, 10, 19, 38), "id": 2, "name": "Nivel 2"},
+            {"rect": pygame.Rect(75, 52, 19, 38), "id": 3, "name": "Nivel 3"},
+        ]
         
         # crear botones
         self.create_buttons()
         
         # cargar fondos adicionales si existen
         self.credits_bg = load_image("fondo/fondo_sin_obama.png", (320, 240))
-        
         self.tutorial_bg = load_image("fondo/fondo_sin_obama.png", (320, 240))
+        self.levels_bg = load_image("Niveles/Niveles sin sida.png", (320, 240))
         
     
     def create_buttons(self):
         # carga los assets de los botones
         button_sprites = self.game.assets['buttons']
+        play_sprites = self.game.assets['p_button']
         
         # escala para achicar los botones
         scale = 0.5  
         
-        # boton jugar - izquierda
+        # boton creditos - izquierda
         self.creditos_button = Button(
             x=200,
             y=150, # posicion 
@@ -77,18 +95,18 @@ class Menu:
             action=self.show_tutorial,
             scale=scale 
         )
-        # igual que el otro boton
-        # boton creditos - abajo derecha
+        
+        # boton jugar - abajo izquierda (VA A NIVELES)
         self.jugar_button = Button(
             x=3,
             y=115,
             normal_sprite=button_sprites[2],
             hover_sprite=button_sprites[3],
-            action=self.start_game,
+            action=self.show_levels,  # CAMBIADO: ahora va a niveles
             scale=0.4
         )
         
-        # boton volver - para créditos y tutorial
+        # boton volver - para créditos, tutorial y niveles
         self.volver_button = Button(
             x=1,
             y=199,
@@ -97,11 +115,54 @@ class Menu:
             action=self.back_to_main,
             scale=0.45
         )
-        # igual q arriba
+        
+        # boton play para el modal de niveles
+        self.play_modal_button = Button(
+            x=110,
+            y=140,
+            normal_sprite=play_sprites[0],
+            hover_sprite=play_sprites[1],
+            action=self.start_selected_level,
+            scale=0.6
+        )
+        
+        # boton cerrar modal
+        self.close_modal_button = Button(
+            x=240,
+            y=50,
+            normal_sprite=button_sprites[6],
+            hover_sprite=button_sprites[7],
+            action=self.close_modal,
+            scale=0.35
+        )
+        
         # listas de botones por menú
         self.main_buttons = [self.jugar_button, self.tutorial_button, self.creditos_button]
         self.credits_buttons = [self.volver_button]
         self.tutorial_buttons = [self.volver_button]
+        self.levels_buttons = [self.volver_button]  # por ahora solo volver
+    
+    def show_levels(self):
+        # mostrar selector de niveles
+        self.current_menu = "LEVELS"
+    
+    def open_modal(self, level_zone):
+        # abrir modal con info del nivel
+        self.modal_open = True
+        self.selected_level = level_zone
+    
+    def close_modal(self):
+        # cerrar modal
+        self.modal_open = False
+        self.selected_level = None
+    
+    def start_selected_level(self):
+        # iniciar el nivel seleccionado
+        if self.selected_level:
+            print(f"Iniciando {self.selected_level['name']} (ID: {self.selected_level['id']})")
+            # aquí después pasarás el ID del nivel a start_game
+            self.game.start_game()
+            self.close_modal()
     
     def start_game(self):
         # iniciar el juego
@@ -137,6 +198,15 @@ class Menu:
         elif self.current_menu == "TUTORIAL":
             for button in self.tutorial_buttons:
                 button.update(scaled_mouse_pos)
+        elif self.current_menu == "LEVELS":
+            if self.modal_open:
+                # actualizar botones del modal
+                self.play_modal_button.update(scaled_mouse_pos)
+                self.close_modal_button.update(scaled_mouse_pos)
+            else:
+                # actualizar botón volver
+                for button in self.levels_buttons:
+                    button.update(scaled_mouse_pos)
     
     def handle_events(self, event):
         # manejar eventos del menu
@@ -149,9 +219,31 @@ class Menu:
         elif self.current_menu == "CREDITS":
             for button in self.credits_buttons:
                 button.is_clicked(scaled_mouse_pos, mouse_clicked)
+            # use the passed event to detect ESC (don't poll events here)
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                self.back_to_main()
         elif self.current_menu == "TUTORIAL":
             for button in self.tutorial_buttons:
                 button.is_clicked(scaled_mouse_pos, mouse_clicked)
+            # use the passed event to detect ESC (don't poll events here)
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                self.back_to_main()
+        elif self.current_menu == "LEVELS":
+            if self.modal_open:
+                # manejar clicks en el modal
+                if mouse_clicked:
+                    self.play_modal_button.is_clicked(scaled_mouse_pos, mouse_clicked)
+                    self.close_modal_button.is_clicked(scaled_mouse_pos, mouse_clicked)
+            else:
+                # verificar clicks en zonas de niveles
+                if mouse_clicked:
+                    for zone in self.level_zones:
+                        if zone["rect"].collidepoint(scaled_mouse_pos):
+                            self.open_modal(zone)
+                            return
+                    # si no clickeó en ningún nivel, verificar botón volver
+                    for button in self.levels_buttons:
+                        button.is_clicked(scaled_mouse_pos, mouse_clicked)
     
     def render_credits_text(self, surf):
         # renderizar texto de creditos
@@ -194,6 +286,7 @@ class Menu:
             "Flecha arriba / W: Saltar",
             "Flecha izq / A: Mover izquierda",
             "Flecha der / D: Mover derecha", 
+            "E: Tirarse",
             "",
             "ESC: Volver al menu",
         ]
@@ -237,3 +330,39 @@ class Menu:
             # renderizar botón de volver
             for button in self.tutorial_buttons:
                 button.render(surf)
+        
+        elif self.current_menu == "LEVELS":
+            # renderizar selector de niveles
+            surf.blit(self.levels_bg, (0, 0))
+            
+            # DEBUG: dibujar los rectángulos de las zonas (comentar después)
+            for zone in self.level_zones:
+                pygame.draw.rect(surf, (255, 0, 0), zone["rect"], 2)
+            
+            # si el modal está abierto, renderizarlo
+            if self.modal_open:
+                self.render_modal(surf)
+            else:
+                # renderizar botón de volver
+                for button in self.levels_buttons:
+                    button.render(surf)
+    
+    def render_modal(self, surf):
+        # dibujar overlay oscuro
+        surf.blit(self.overlay, (0, 0))
+        
+        # dibujar cuadro del modal
+        modal_rect = pygame.Rect(60, 40, 200, 160)
+        pygame.draw.rect(surf, (40, 40, 60), modal_rect)
+        pygame.draw.rect(surf, (255, 255, 255), modal_rect, 3)
+        
+        # renderizar texto del nivel
+        font_title = pygame.font.Font(None, 28)
+        
+        title_text = font_title.render(self.selected_level['name'], True, (255, 255, 255))
+        title_rect = title_text.get_rect(center=(160, 80))
+        surf.blit(title_text, title_rect)
+        
+        # renderizar botones del modal
+        self.play_modal_button.render(surf)
+        self.close_modal_button.render(surf)
