@@ -13,6 +13,7 @@ class Editor:
         self.screen = pygame.display.set_mode((1054, 512))
         self.display = pygame.Surface((320, 240))
         self.clock = pygame.time.Clock()
+        self.collected_stars = set()
         
         # cargar assets
         self.assets = {
