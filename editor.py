@@ -35,6 +35,9 @@ class Editor:
 
         try: 
             self.tilemap.load("base.json")
+
+            self.tilemap.load("3.json")
+
         except FileNotFoundError:
             pass
         
