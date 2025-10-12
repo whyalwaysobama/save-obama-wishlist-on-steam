@@ -15,7 +15,7 @@ class Game:
         self.clicking = False
         self.timer = 0
         self.timer_running = False
-        self.max_time = 5
+        self.max_time = 10000000000
         self.collected_stars = set()
         
         # estado del juego
@@ -52,7 +52,7 @@ class Game:
         # crear entidades del juego
         self.player = Player(self, (50, 50), (11, 16))
         self.tilemap = Tilemap(self, tile_size=16)
-        self.tilemap.load('tuto.json')
+        self.tilemap.load('3.json')
 
         # crear menú
         self.menu = Menu(self)
