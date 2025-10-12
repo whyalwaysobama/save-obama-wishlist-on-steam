@@ -387,7 +387,6 @@ class Menu:
         elif self.current_menu == "LEVELS":
             # renderizar selector de niveles
             surf.blit(self.levels_bg, (0, 0))
-            
             # DEBUG: dibujar los rectángulos de las zonas (comentar después)
             for zone in self.level_zones:
                 pygame.draw.rect(surf, (255, 0, 0), zone["rect"], 2)
