@@ -57,16 +57,17 @@ class Menu:
             {"rect": pygame.Rect(7, 22, 19, 38), "id": 1, "name": "Nivel 1"},
             {"rect": pygame.Rect(56, 10, 19, 38), "id": 2, "name": "Nivel 2"},
             {"rect": pygame.Rect(75, 52, 19, 38), "id": 3, "name": "Nivel 3"},
-            {"rect": pygame.Rect(75, 52, 19, 38), "id": 4, "name": "Nivel 4"},
+            """{"rect": pygame.Rect(75, 52, 19, 38), "id": 4, "name": "Nivel 4"},
             {"rect": pygame.Rect(75, 52, 19, 38), "id": 5, "name": "Nivel 5"},
             {"rect": pygame.Rect(75, 52, 19, 38), "id": 6, "name": "Nivel 6"},
             {"rect": pygame.Rect(75, 52, 19, 38), "id": 7, "name": "Nivel 7"},
             {"rect": pygame.Rect(75, 52, 19, 38), "id": 8, "name": "Nivel 8"},
             {"rect": pygame.Rect(75, 52, 19, 38), "id": 9, "name": "Nivel 9"},
             {"rect": pygame.Rect(75, 52, 19, 38), "id": 10, "name": "Nivel 10"},
-            {"rect": pygame.Rect(75, 52, 19, 38), "id": 11, "name": "Nivel Secreto"},
+            {"rect": pygame.Rect(75, 52, 19, 38), "id": 11, "name": "Nivel Secreto"},"""
         ]
-        
+          
+
         # crear botones
         self.create_buttons()
         
@@ -76,6 +77,17 @@ class Menu:
         self.levels_bg = load_image("Niveles/Niveles sin sida.png", (320, 240))
         self.death_bg = load_image("fondo/fondo_sin_obama.png", (320, 240))
         
+    def start_tutorial_level(self):
+            self.game.start_game('tutorial')  # Asumiendo que el tutorial es el nivel 0
+
+    def start_selected_level(self):
+        if self.selected_level:
+            level_id = self.selected_level['id']
+            print(f"Iniciando {self.selected_level['name']} (ID: {level_id})")
+            # aquí después pasarás el ID del nivel a start_game
+            self.game.start_game(level_id)
+            self.close_modal()
+
     
     def create_buttons(self):
         # carga los assets de los botones
@@ -86,11 +98,11 @@ class Menu:
         scale = 0.5  
         
         self.continue_button = Button(
-            x=240,
-            y=150, # posicion 
-            normal_sprite=button_sprites[8], 
-            hover_sprite=button_sprites[9], # defino cada sprite
-            action=self.show_credits, # cambio modo actual
+            x=215,
+            y=199, # posicion 
+            normal_sprite=button_sprites[9], 
+            hover_sprite=button_sprites[8], # defino cada sprite
+            action=self.start_tutorial_level, # cambio modo actual
             scale=scale # escala
         ) 
 
@@ -174,15 +186,7 @@ class Menu:
         # cerrar modal
         self.modal_open = False
         self.selected_level = None
-    
-    def start_selected_level(self):
-        # iniciar el nivel seleccionado
-        if self.selected_level:
-            print(f"Iniciando {self.selected_level['name']} (ID: {self.selected_level['id']})")
-            # aquí después pasarás el ID del nivel a start_game
-            self.game.start_game()
-            self.close_modal()
-    
+
     def start_game(self):
         # iniciar el juego
         self.game.start_game()
@@ -340,7 +344,6 @@ class Menu:
             "Flecha izq / A: Mover izquierda",
             "Flecha der / D: Mover derecha", 
             "E: Tirarse",
-            "",
             "ESC: Volver al menu",
         ]
         
@@ -387,9 +390,9 @@ class Menu:
         elif self.current_menu == "LEVELS":
             # renderizar selector de niveles
             surf.blit(self.levels_bg, (0, 0))
-            # DEBUG: dibujar los rectángulos de las zonas (comentar después)
-            for zone in self.level_zones:
-                pygame.draw.rect(surf, (255, 0, 0), zone["rect"], 2)
+
+            #for zone in self.level_zones:
+                #pygame.draw.rect(surf, (255, 0, 0), zone["rect"], 2)
             
             # si el modal está abierto, renderizarlo
             if self.modal_open:

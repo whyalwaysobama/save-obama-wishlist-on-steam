@@ -123,4 +123,3 @@ class Tilemap:
                                 (tile['pos'][0] * self.tile_size - offset[0], 
                                 tile['pos'][1] * self.tile_size - offset[1]))
             
-        

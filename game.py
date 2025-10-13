@@ -17,6 +17,21 @@ class Game:
         self.timer_running = False
         self.max_time = 10000000000
         self.collected_stars = set()
+        self.current_level = 1
+        self.level_maps = {
+            'tutorial': 'tuto.json',
+            1: '1.json',
+            2: '2.json',
+            3: '3.json',
+            4: '4.json',
+            5: '5.json',
+            6: '6.json',
+            7: '7.json',
+            8: '8.json',
+            9: '9.json',
+            10: '10.json',
+            11: 'secreto.json',
+        }           
         
         # estado del juego
         self.game_state = "MENU"  # menu playing
@@ -58,9 +73,26 @@ class Game:
         self.menu = Menu(self)
         self.scroll = [0, 30]
 
+    def load_level(self, level_id):
+        if level_id in self.level_maps:
+            self.current_level = level_id
+            map_file = self.level_maps[level_id]
+            
+            # Reiniciar tilemap
+            self.tilemap = Tilemap(self, tile_size=16)
+            self.tilemap.load(map_file)
+            
+            # Reiniciar estrellas colectadas para este nivel
+            self.collected_stars = set()
+            
+            return True
+        else:
+            return False
 
-    def start_game(self):
+    def start_game(self, level_id=1):
         # inicia el juego
+        if not self.load_level(level_id):
+            return
         self.game_state = "PLAYING"
         self.player.pos = [0, 0]  # posición inicial
         self.player.velocity = [0, 0]  # velocidad en 0
@@ -73,6 +105,8 @@ class Game:
         self.movement = [False, False]  
         self.timer = 0
         self.timer_running = True
+        self.scroll = [0, 30]
+        self.clicking = False
     
     def back_to_menu(self):
         # volver al menú
