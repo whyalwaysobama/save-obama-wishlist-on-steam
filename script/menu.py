@@ -148,10 +148,10 @@ class Menu:
         
         # boton play para el modal de niveles
         self.play_modal_button = Button(
-            x=110,
+            x=125,
             y=140,
-            normal_sprite=play_sprites[0],
-            hover_sprite=play_sprites[1],
+            normal_sprite=play_sprites[1],
+            hover_sprite=play_sprites[0],
             action=self.start_selected_level,
             scale=0.6
         )
