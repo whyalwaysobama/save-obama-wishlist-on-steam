@@ -15,7 +15,7 @@ class Game:
         self.clicking = False
         self.timer = 0
         self.timer_running = False
-        self.max_time = 10000000000
+        self.max_time = 40
         self.collected_stars = set()
         self.current_level = 1
         self.fps = 60
