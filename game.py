@@ -18,6 +18,7 @@ class Game:
         self.max_time = 10000000000
         self.collected_stars = set()
         self.current_level = 1
+        self.fps = 60
         self.level_maps = {
             'tutorial': 'tuto.json',
             1: '1.json',
@@ -31,7 +32,8 @@ class Game:
             9: '9.json',
             10: '10.json',
             11: 'secreto.json',
-        }           
+        }
+        self.slowmo = False
         
         # estado del juego
         self.game_state = "MENU"  # menu playing
@@ -173,6 +175,9 @@ class Game:
                             self.clicking = True
                         if event.key == pygame.K_ESCAPE:
                             self.back_to_menu()  # volver al menú con ESC
+                        if event.key == pygame.K_LSHIFT:
+                            self.slowmo = True
+                            self.fps = 30
                     if event.type == pygame.KEYUP:
                         if event.key == pygame.K_LEFT or event.key == pygame.K_a:
                             self.movement[0] = False
@@ -180,6 +185,9 @@ class Game:
                             self.movement[1] = False
                         if event.key == pygame.K_e:
                             self.clicking = False 
+                        if event.key == pygame.K_LSHIFT:
+                            self.slowmo = False
+                            self.fps = 60
                 elif self.game_state == "WIN":
                     self.display.blit(load_image("fondo/win.png", (320, 240)), (0, 0))
                     if event.type == pygame.KEYDOWN :
@@ -191,6 +199,6 @@ class Game:
             
             self.screen.blit(pygame.transform.scale(self.display, self.screen.get_size()), (0, 0)) # escalar a pantalla
             pygame.display.update()
-            self.clock.tick(60)
+            self.clock.tick(self.fps)
 
 Game().run()

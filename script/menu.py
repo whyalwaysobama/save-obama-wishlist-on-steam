@@ -269,9 +269,12 @@ class Menu:
                 # verificar clicks en zonas de niveles
                 if mouse_clicked:
                     for zone in self.level_zones:
-                        if zone["rect"].collidepoint(scaled_mouse_pos):
-                            self.open_modal(zone)
-                            return
+                        try:
+                            if zone["rect"].collidepoint(scaled_mouse_pos):
+                                self.open_modal(zone)
+                                
+                        except:
+                            pass
                     # si no clickeó en ningún nivel, verificar botón volver
                     for button in self.levels_buttons:
                         button.is_clicked(scaled_mouse_pos, mouse_clicked)
