@@ -15,10 +15,16 @@ class Game:
         self.clicking = False
         self.timer = 0
         self.timer_running = False
-        self.max_time = 40
+        self.max_time = 15
         self.collected_stars = set()
         self.current_level = 1
         self.fps = 60
+        self.level_configs = {
+            'tutorial': {'max_time': None, 'start_pos': [30, 50]},
+            1: {'max_time': 15, 'start_pos': [0, 115]},
+            2: {'max_time': 18, 'start_pos': [0, 110]},
+            3: {'max_time': 20, 'start_pos': [0, 110]},
+        }
         self.level_maps = {
             'tutorial': 'tuto.json',
             1: '1.json',
@@ -61,6 +67,16 @@ class Game:
             'player/run' : Animation(load_images("Reptiliano PJ/run"), img_dur=6),
             'player/jump' : Animation(load_images("Reptiliano PJ/jump"), img_dur=10, loop=False),
             'player/save' : Animation(load_images("Reptiliano PJ/salvador"), img_dur=18, loop=False),
+            'level 1' : load_images("Niveles/Nivel 1", (130, 230)),
+            'level 2' : load_images("Niveles/Nivel 2", (130, 230)),
+            'level 3' : load_images("Niveles/Nivel 3", (130, 230)),
+            'level 4' : load_images("Niveles/Nivel 4", (130, 230)),
+            'level 5' : load_images("Niveles/Nivel 5", (130, 230)),
+            'level 6' : load_images("Niveles/Nivel 6", (130, 230)),
+            'level 7' : load_images("Niveles/Nivel 7", (130, 230)),
+            'level 8' : load_images("Niveles/Nivel 8", (130, 230)),
+            'level 9' : load_images("Niveles/Nivel 9", (130, 230)),
+            'level 10' : load_images("Niveles/Nivel 10", (130, 230)),
         }
         
         # cargar fondo del menú
@@ -87,6 +103,10 @@ class Game:
             # Reiniciar estrellas colectadas para este nivel
             self.collected_stars = set()
             
+            config = self.level_configs.get(level_id, {'max_time': 15, 'start_pos': [0, 0]})
+            self.max_time = config['max_time'] 
+            self.player.pos = config['start_pos'][:]
+
             return True
         else:
             return False
@@ -95,14 +115,13 @@ class Game:
         # inicia el juego
         if not self.load_level(level_id):
             return
-        self.game_state = "PLAYING"
-        self.player.pos = [0, 0]  # posición inicial
+        self.game_state = "PLAYING"  # posición inicial
         self.player.velocity = [0, 0]  # velocidad en 0
         self.player.air_time = 0      
         self.player.dashing = False  
         self.player.animation_locked = False
         self.player.dash_time = 0
-        self.player.dash_cooldown = 0  
+        self.player.dash_cooldown = 30  
         self.player.set_action("idle")  
         self.movement = [False, False]  
         self.timer = 0
@@ -118,6 +137,7 @@ class Game:
     def run(self):
         # arranque
         while True:
+            print(self.timer)
             # renderizar segun el estado
             if self.game_state == "MENU":
                 self.timer = 0
@@ -190,6 +210,8 @@ class Game:
                             self.fps = 60
                 elif self.game_state == "WIN":
                     self.display.blit(load_image("fondo/win.png", (320, 240)), (0, 0))
+                    self.timer_running = False
+                    self.timer = 0
                     if event.type == pygame.KEYDOWN :
                         if event.key == pygame.K_ESCAPE:
                             self.back_to_menu()  

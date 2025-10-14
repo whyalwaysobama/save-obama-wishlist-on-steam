@@ -159,7 +159,7 @@ class Menu:
         # boton cerrar modal
         self.close_modal_button = Button(
             x=240,
-            y=50,
+            y=200,
             normal_sprite=button_sprites[6],
             hover_sprite=button_sprites[7],
             action=self.close_modal,
@@ -170,8 +170,8 @@ class Menu:
         self.main_buttons = [self.jugar_button, self.tutorial_button, self.creditos_button]
         self.credits_buttons = [self.volver_button]
         self.tutorial_buttons = [self.volver_button, self.continue_button]
-        self.levels_buttons = [self.volver_button]  # por ahora solo volver
-        self.death_buttons = [self.volver_button]
+        self.levels_buttons = [self.volver_button, self.continue_button]  # por ahora solo volver
+        self.death_buttons = [self.volver_button, self.continue_button]
     
     def show_levels(self):
         # mostrar selector de niveles
@@ -261,6 +261,8 @@ class Menu:
                 self.back_to_main()
         elif self.current_menu == "LEVELS":
             if self.modal_open:
+                if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                    self.close_modal()  # cerrar el modal y volver al menú de niveles
                 # manejar clicks en el modal
                 if mouse_clicked:
                     self.play_modal_button.is_clicked(scaled_mouse_pos, mouse_clicked)
@@ -413,16 +415,18 @@ class Menu:
         # dibujar overlay oscuro
         surf.blit(self.overlay, (0, 0))
         
-        # dibujar cuadro del modal
-        modal_rect = pygame.Rect(60, 40, 200, 160)
-        pygame.draw.rect(surf, (40, 40, 60), modal_rect)
-        pygame.draw.rect(surf, (255, 255, 255), modal_rect, 3)
+        # renderizar imagen del nivel según el id
+        level_id = self.selected_level['id']
+        asset_key = f'level {level_id}'
+        if asset_key in self.game.assets:
+            level_img = self.game.assets[asset_key][0]  # usa la primera imagen si es una lista
+            img_rect = level_img.get_rect(center=(160, 120))
+            surf.blit(level_img, img_rect)
         
         # renderizar texto del nivel
         font_title = pygame.font.Font(None, 28)
-        
-        title_text = font_title.render(self.selected_level['name'], True, (255, 255, 255))
-        title_rect = title_text.get_rect(center=(160, 80))
+        title_text = font_title.render(self.selected_level['name'], True, (0, 0, 0))
+        title_rect = title_text.get_rect(center=(160, 25))
         surf.blit(title_text, title_rect)
         
         # renderizar botones del modal

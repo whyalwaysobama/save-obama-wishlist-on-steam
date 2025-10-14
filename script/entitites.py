@@ -124,7 +124,7 @@ class Player(PhysicsEntity):
             self.animation_locked = True
             self.dashing = True
             self.dash_time = 0
-            self.dash_cooldown = 60  # 60 frames = 1 segundo (ajustá esto)
+            self.dash_cooldown = 60  
         elif self.air_time > 4: 
             self.set_action('jump')
         elif movement[0] != 0: 
