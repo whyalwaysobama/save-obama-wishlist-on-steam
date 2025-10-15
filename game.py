@@ -62,6 +62,7 @@ class Game:
             'estrella' : load_images('Tiles/estrella'),
             'people' : load_images('Tiles/personas'),
             'pisos variables' : load_images('Tiles/pisos variables'),
+            'elmatador' : load_images('Tiles/elmatador'),
             'background': load_image("DJ Totote Fondo/DJ totote prime.png", (320, 240)),
             'player/idle' : Animation(load_images("Reptiliano PJ/idle"), img_dur=18),
             'player/run' : Animation(load_images("Reptiliano PJ/run"), img_dur=6),

@@ -14,7 +14,7 @@ AUTOTILES_MAP = {
 }
 
 NEIGHBOR_OFFSETS = [(-1, 0), (-1, -1), (0, -1), (1, -1), (1, 0), (0, 0), (-1, 1), (0, 1), (1, 1)] # offsets para tiles vecinos
-PHYSICS_TILES = {'piso', 'caja', 'barrier','barril','pisos variables',"people",} # que tiles tienen colision
+PHYSICS_TILES = {'piso', 'caja', 'barrier','barril','pisos variables',"people","elmatador"} # que tiles tienen colision
 AUTOTILES_TYPES = {'piso'}
 
 class Tilemap:
