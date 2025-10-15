@@ -1,4 +1,4 @@
-import pygame
+import pygame 
 from script.utils import load_image
 
 class Button:
@@ -52,21 +52,23 @@ class Menu:
         self.overlay.fill((0, 0, 0))  # negro
         
         # definir zonas clickeables de niveles (x, y, ancho, alto)
-        # AJUSTA ESTAS COORDENADAS SEGÚN DONDE ESTÉN TUS NIVELES EN LA IMAGEN
         self.level_zones = [
             {"rect": pygame.Rect(7, 22, 19, 38), "id": 1, "name": "Nivel 1"},
             {"rect": pygame.Rect(56, 10, 19, 38), "id": 2, "name": "Nivel 2"},
             {"rect": pygame.Rect(75, 52, 19, 38), "id": 3, "name": "Nivel 3"},
-            """{"rect": pygame.Rect(75, 52, 19, 38), "id": 4, "name": "Nivel 4"},
-            {"rect": pygame.Rect(75, 52, 19, 38), "id": 5, "name": "Nivel 5"},
-            {"rect": pygame.Rect(75, 52, 19, 38), "id": 6, "name": "Nivel 6"},
-            {"rect": pygame.Rect(75, 52, 19, 38), "id": 7, "name": "Nivel 7"},
-            {"rect": pygame.Rect(75, 52, 19, 38), "id": 8, "name": "Nivel 8"},
-            {"rect": pygame.Rect(75, 52, 19, 38), "id": 9, "name": "Nivel 9"},
-            {"rect": pygame.Rect(75, 52, 19, 38), "id": 10, "name": "Nivel 10"},
-            {"rect": pygame.Rect(75, 52, 19, 38), "id": 11, "name": "Nivel Secreto"},"""
+            {"rect": pygame.Rect(226, 25, 29, 35), "id": 4, "name": "Nivel 4"},
+            {"rect": pygame.Rect(255, 38, 80, 38), "id": 5, "name": "Nivel 5"},
+            {"rect": pygame.Rect(227, 85, 29, 30), "id": 6, "name": "Nivel 6"},
+            {"rect": pygame.Rect(256, 100, 24, 34), "id": 7, "name": "Nivel 7"},
+            {"rect": pygame.Rect(280, 121, 20, 30), "id": 8, "name": "Nivel 8"},
+            {"rect": pygame.Rect(22, 102, 63, 55), "id": 9, "name": "Nivel 9"},
+            {"rect": pygame.Rect(155, 150, 115, 37), "id": 10, "name": "Nivel 10"},
+            {"rect": pygame.Rect(157, 68, 45, 80), "id": 11, "name": "Nivel Secreto"},
         ]
-          
+        
+        self.easter_egg = pygame.Rect(2, 128, 17, 28)
+        self.eater_shown = False
+            
 
         # crear botones
         self.create_buttons()
@@ -99,7 +101,7 @@ class Menu:
         
         self.continue_button = Button(
             x=215,
-            y=199, # posicion 
+            y=196, # posicion 
             normal_sprite=button_sprites[9], 
             hover_sprite=button_sprites[8], # defino cada sprite
             action=self.start_tutorial_level, # cambio modo actual
@@ -170,7 +172,7 @@ class Menu:
         self.main_buttons = [self.jugar_button, self.tutorial_button, self.creditos_button]
         self.credits_buttons = [self.volver_button]
         self.tutorial_buttons = [self.volver_button, self.continue_button]
-        self.levels_buttons = [self.volver_button, self.continue_button]  # por ahora solo volver
+        self.levels_buttons = [self.volver_button]  # por ahora solo volver
         self.death_buttons = [self.volver_button, self.continue_button]
     
     def show_levels(self):

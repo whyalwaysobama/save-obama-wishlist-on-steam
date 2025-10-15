@@ -20,10 +20,10 @@ class Game:
         self.current_level = 1
         self.fps = 60
         self.level_configs = {
-            'tutorial': {'max_time': None, 'start_pos': [30, 50]},
+            'tutorial': {'max_time': None, 'start_pos': [30, 100]},
             1: {'max_time': 15, 'start_pos': [0, 115]},
-            2: {'max_time': 18, 'start_pos': [0, 110]},
-            3: {'max_time': 20, 'start_pos': [0, 110]},
+            2: {'max_time': 18, 'start_pos': [0, 115]},
+            3: {'max_time': 20, 'start_pos': [0, 115]},
         }
         self.level_maps = {
             'tutorial': 'tuto.json',
@@ -138,7 +138,6 @@ class Game:
     def run(self):
         # arranque
         while True:
-            print(self.timer)
             # renderizar segun el estado
             if self.game_state == "MENU":
                 self.timer = 0
@@ -170,7 +169,7 @@ class Game:
             
             if self.timer_running :
                 self.timer += 1/60
-                if self.timer >= self.max_time :
+                if self.max_time is not None and self.timer >= self.max_time :
                     self.timer = self.max_time
                     self.timer_running = False
                     self.game_state = "LOSE"  

@@ -11,6 +11,8 @@ def load_image(path, scale=None):
         img = pygame.transform.scale(img, scale)
     if path == "Niveles/Niveles sin sida.png" :
         return img
+    if "Niveles" in path :
+        return img
     else:   
         img.set_colorkey((0, 0, 0))
     return img
