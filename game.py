@@ -4,6 +4,7 @@ from script.utils import load_image, load_images, Animation
 from script.entitites import PhysicsEntity, Player
 from script.tilemap import Tilemap
 from script.menu import Menu
+from script.save_progress import SaveProgress
 
 class Game:
     def __init__(self):
@@ -21,7 +22,7 @@ class Game:
         self.fps = 60
         self.level_configs = {
             'tutorial': {'max_time': None, 'start_pos': [30, 100]},
-            1: {'max_time': 15, 'start_pos': [0, 115]},
+            1: {'max_time': 40, 'start_pos': [0, 115]},
             2: {'max_time': 18, 'start_pos': [0, 115]},
             3: {'max_time': 35, 'start_pos': [0, 115]},
         }
@@ -92,6 +93,8 @@ class Game:
         self.menu = Menu(self)
         self.scroll = [0, 30]
 
+        self.save_progress = SaveProgress()
+
     def load_level(self, level_id):
         if level_id in self.level_maps:
             self.current_level = level_id
@@ -116,6 +119,7 @@ class Game:
         # inicia el juego
         if not self.load_level(level_id):
             return
+        saved_stars = self.save_progress.get_level_stars(level_id)
         self.game_state = "PLAYING"  # posición inicial
         self.player.velocity = [0, 0]  # velocidad en 0
         self.player.air_time = 0      
@@ -129,6 +133,9 @@ class Game:
         self.timer_running = True
         self.scroll = [0, 30]
         self.clicking = False
+        self.fps = 60
+        self.slowmo = False
+        
     
     def back_to_menu(self):
         # volver al menú
@@ -211,7 +218,15 @@ class Game:
                 elif self.game_state == "WIN":
                     self.display.blit(load_image("fondo/win.png", (320, 240)), (0, 0))
                     self.timer_running = False
+                    stars_in_level = len(self.collected_stars)
+                    self.save_progress.update_level(
+                        self.current_level,
+                        stars_in_level,
+                        self.timer,
+                        completed=True
+                    )
                     self.timer = 0
+
                     if event.type == pygame.KEYDOWN :
                         if event.key == pygame.K_ESCAPE:
                             self.back_to_menu()  

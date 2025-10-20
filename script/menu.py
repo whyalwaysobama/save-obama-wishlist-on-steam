@@ -90,6 +90,17 @@ class Menu:
             self.game.start_game(level_id)
             self.close_modal()
 
+    def retry_level(self):
+        # reinicia el nivel actual (fallback a 'tutorial' si no hay current_level)
+        level_id = getattr(self.game, 'current_level', None)
+        if level_id is None:
+            level_id = 'tutorial'
+        self.game.start_game(level_id)
+        # limpiar estado del menú por si quedó abierto
+        self.modal_open = False
+        self.selected_level = None
+        self.current_menu = "MAIN"
+
     
     def create_buttons(self):
         # carga los assets de los botones
@@ -102,8 +113,8 @@ class Menu:
         self.continue_button = Button(
             x=215,
             y=196, # posicion 
-            normal_sprite=button_sprites[9], 
-            hover_sprite=button_sprites[8], # defino cada sprite
+            normal_sprite=button_sprites[1], 
+            hover_sprite=button_sprites[0], # defino cada sprite
             action=self.start_tutorial_level, # cambio modo actual
             scale=scale # escala
         ) 
@@ -112,8 +123,8 @@ class Menu:
         self.creditos_button = Button(
             x=200,
             y=150, # posicion 
-            normal_sprite=button_sprites[0], 
-            hover_sprite=button_sprites[1], # defino cada sprite
+            normal_sprite=button_sprites[2], 
+            hover_sprite=button_sprites[3], # defino cada sprite
             action=self.show_credits, # cambio modo actual
             scale=scale # escala
         )
@@ -122,18 +133,18 @@ class Menu:
         self.tutorial_button = Button(
             x=200,
             y=105,
-            normal_sprite=button_sprites[4],
-            hover_sprite=button_sprites[5],
+            normal_sprite=button_sprites[8],
+            hover_sprite=button_sprites[9],
             action=self.show_tutorial,
-            scale=scale 
+            scale=scale
         )
         
         # boton jugar - abajo izquierda (VA A NIVELES)
         self.jugar_button = Button(
             x=3,
             y=115,
-            normal_sprite=button_sprites[2],
-            hover_sprite=button_sprites[3],
+            normal_sprite=button_sprites[4],
+            hover_sprite=button_sprites[5],
             action=self.show_levels,  
             scale=0.4
         )
@@ -142,8 +153,8 @@ class Menu:
         self.volver_button = Button(
             x=1,
             y=199,
-            normal_sprite=button_sprites[6],
-            hover_sprite=button_sprites[7],
+            normal_sprite=button_sprites[10],
+            hover_sprite=button_sprites[11],
             action=self.back_to_main,
             scale=0.45
         )
@@ -162,10 +173,18 @@ class Menu:
         self.close_modal_button = Button(
             x=240,
             y=200,
-            normal_sprite=button_sprites[6],
-            hover_sprite=button_sprites[7],
+            normal_sprite=button_sprites[10],
+            hover_sprite=button_sprites[11],
             action=self.close_modal,
             scale=0.35
+        )
+        self.retry_button = Button(
+            x=215,
+            y=196, # posicion 
+            normal_sprite=button_sprites[7], 
+            hover_sprite=button_sprites[6], # defino cada sprite
+            action=self.retry_level, # cambio modo actual
+            scale=scale # escala
         )
         
         # listas de botones por menú
@@ -173,7 +192,7 @@ class Menu:
         self.credits_buttons = [self.volver_button]
         self.tutorial_buttons = [self.volver_button, self.continue_button]
         self.levels_buttons = [self.volver_button]  # por ahora solo volver
-        self.death_buttons = [self.volver_button, self.continue_button]
+        self.death_buttons = [self.volver_button, self.retry_button]
     
     def show_levels(self):
         # mostrar selector de niveles
@@ -287,7 +306,8 @@ class Menu:
                 button.is_clicked(scaled_mouse_pos, mouse_clicked)
             if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                 self.back_to_main()
-    
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_r:
+                self.retry_level()
     def render_credits_text(self, surf):
         # renderizar texto de creditos
         font = pygame.font.Font(None, 24)

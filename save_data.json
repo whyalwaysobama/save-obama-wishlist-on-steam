@@ -1,0 +1,64 @@
+{
+    "levels": {
+        "tutorial": {
+            "stars": 0,
+            "completed": false,
+            "best_time": null
+        },
+        "1": {
+            "stars": 0,
+            "completed": false,
+            "best_time": null
+        },
+        "2": {
+            "stars": 3,
+            "completed": true,
+            "best_time": 0
+        },
+        "3": {
+            "stars": 3,
+            "completed": true,
+            "best_time": 0
+        },
+        "4": {
+            "stars": 0,
+            "completed": false,
+            "best_time": null
+        },
+        "5": {
+            "stars": 0,
+            "completed": false,
+            "best_time": null
+        },
+        "6": {
+            "stars": 0,
+            "completed": false,
+            "best_time": null
+        },
+        "7": {
+            "stars": 0,
+            "completed": false,
+            "best_time": null
+        },
+        "8": {
+            "stars": 0,
+            "completed": false,
+            "best_time": null
+        },
+        "9": {
+            "stars": 0,
+            "completed": false,
+            "best_time": null
+        },
+        "10": {
+            "stars": 0,
+            "completed": false,
+            "best_time": null
+        },
+        "11": {
+            "stars": 0,
+            "completed": false,
+            "best_time": null
+        }
+    }
+}
