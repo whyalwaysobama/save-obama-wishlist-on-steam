@@ -23,7 +23,7 @@ class Game:
             'tutorial': {'max_time': None, 'start_pos': [30, 100]},
             1: {'max_time': 15, 'start_pos': [0, 115]},
             2: {'max_time': 18, 'start_pos': [0, 115]},
-            3: {'max_time': 20, 'start_pos': [0, 115]},
+            3: {'max_time': 35, 'start_pos': [0, 115]},
         }
         self.level_maps = {
             'tutorial': 'tuto.json',
