@@ -441,7 +441,9 @@ class Menu:
         level_id = self.selected_level['id']
         asset_key = f'level {level_id}'
         if asset_key in self.game.assets:
-            level_img = self.game.assets[asset_key][0]  # usa la primera imagen si es una lista
+            stars = self.game.save_progress.get_level_stars(level_id)
+            img_index = min(stars, 3)  
+            level_img = self.game.assets[asset_key][img_index]
             img_rect = level_img.get_rect(center=(160, 120))
             surf.blit(level_img, img_rect)
         
