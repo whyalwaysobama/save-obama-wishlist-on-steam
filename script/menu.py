@@ -40,7 +40,7 @@ class Button:
 class Menu:
     def __init__(self, game):
         self.game = game
-        self.current_menu = "MAIN"  # "MAIN", "CREDITS", "TUTORIAL", "LEVELS", "LOSE"
+        self.current_menu = "MAIN"  # "MAIN", "CREDITS", "TUTORIAL", "LEVELS", "LOSE", "SAVES"
         
         # estado del modal de niveles
         self.modal_open = False
@@ -187,12 +187,44 @@ class Menu:
             scale=scale # escala
         )
         
+        self.save1_button = Button(
+            x=125,
+            y=60, # posicion 
+            normal_sprite=button_sprites[13], 
+            hover_sprite=button_sprites[12], # defino cada sprite
+            action=self.show_levels, # cambio modo actual
+            scale=scale # escala
+        )
+
+        self.save2_button = Button(
+            x=125,
+            y=120, # posicion 
+            normal_sprite=button_sprites[13], 
+            hover_sprite=button_sprites[12], # defino cada sprite
+            action=self.show_levels, # cambio modo actual
+            scale=scale # escala
+        )
+
+        self.save3_button = Button(
+            x=125,
+            y=180, # posicion 
+            normal_sprite=button_sprites[13], 
+            hover_sprite=button_sprites[12], # defino cada sprite
+            action=self.show_levels, # cambio modo actual
+            scale=scale # escala
+        )
+
         # listas de botones por menú
         self.main_buttons = [self.jugar_button, self.tutorial_button, self.creditos_button]
         self.credits_buttons = [self.volver_button]
         self.tutorial_buttons = [self.volver_button, self.continue_button]
         self.levels_buttons = [self.volver_button]  # por ahora solo volver
         self.death_buttons = [self.volver_button, self.retry_button]
+        self.saves_buttons = [self.save1_button, self.save2_button, self.save3_button]
+   
+    def show_saves(self):
+        # mostrar selector de niveles
+        self.current_menu = "SAVES"
     
     def show_levels(self):
         # mostrar selector de niveles
