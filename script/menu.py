@@ -181,8 +181,8 @@ class Menu:
         self.retry_button = Button(
             x=215,
             y=196, # posicion 
-            normal_sprite=button_sprites[12], 
-            hover_sprite=button_sprites[11], # defino cada sprite
+            normal_sprite=button_sprites[13], 
+            hover_sprite=button_sprites[12], # defino cada sprite
             action=self.retry_level, # cambio modo actual
             scale=scale # escala
         )

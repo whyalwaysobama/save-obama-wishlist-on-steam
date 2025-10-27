@@ -1,9 +1,9 @@
 {
     "levels": {
         "tutorial": {
-            "stars": 0,
-            "completed": false,
-            "best_time": null
+            "stars": 2,
+            "completed": true,
+            "best_time": 0
         },
         "1": {
             "stars": 3,
