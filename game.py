@@ -25,7 +25,8 @@ class Game:
             1: {'max_time': 25, 'start_pos': [0, 115]},
             2: {'max_time': 18, 'start_pos': [0, 115]},
             3: {'max_time': 35, 'start_pos': [0, 115]},
-            4: {'max_time': 111111111111, 'start_pos': [0, 115]},
+            4: {'max_time': 39, 'start_pos': [0, 115]},
+            5: {'max_time': 40, 'start_pos': [0, 115]},
 
         }
         self.level_maps = {
@@ -85,6 +86,7 @@ class Game:
         
         # cargar fondo del menú
         self.menu_bg = load_image("Obama_PJ/Menu_chad_sin_botones.png", (320, 240))
+        self.backround = load_image("fondo/fabrica.png", (320, 240))
         
         # crear entidades del juego
         self.player = Player(self, (50, 50), (11, 16))

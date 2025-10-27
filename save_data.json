@@ -21,14 +21,14 @@
             "best_time": 0
         },
         "4": {
-            "stars": 0,
-            "completed": false,
-            "best_time": null
+            "stars": 2,
+            "completed": true,
+            "best_time": 0
         },
         "5": {
-            "stars": 0,
-            "completed": false,
-            "best_time": null
+            "stars": 3,
+            "completed": true,
+            "best_time": 0
         },
         "6": {
             "stars": 0,
