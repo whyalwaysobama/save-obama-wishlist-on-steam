@@ -20,13 +20,13 @@ class Game:
         self.collected_stars = set()
         self.current_level = 1
         self.fps = 60
+        self.current_background = 'background'
         self.level_configs = {
-            'tutorial': {'max_time': None, 'start_pos': [30, 100]},
-            1: {'max_time': 25, 'start_pos': [0, 115]},
-            2: {'max_time': 18, 'start_pos': [0, 115]},
-            3: {'max_time': 35, 'start_pos': [0, 115]},
-            4: {'max_time': 39, 'start_pos': [0, 115]},
-            5: {'max_time': 40, 'start_pos': [0, 115]},
+            'tutorial': {'max_time': None, 'start_pos': [30, 100], 'background' : (0, 0, 0)},
+            1: {'max_time': 25, 'start_pos': [0, 115], 'background' : 'totote_bg'},
+            2: {'max_time': 18, 'start_pos': [0, 115], 'background' : 'totote_bg'},
+            3: {'max_time': 35, 'start_pos': [0, 115], 'background' : 'totote_bg'},
+            4: {'max_time': 111111111111, 'start_pos': [0, 115], 'background' : 'fabrica_bg'},
 
         }
         self.level_maps = {
@@ -67,7 +67,8 @@ class Game:
             'people' : load_images('Tiles/personas'),
             'pisos variables' : load_images('Tiles/pisos variables'),
             'elmatador' : load_images('Tiles/elmatador'),
-            'background': load_image("DJ Totote Fondo/DJ totote prime.png", (320, 240)),
+            'totote_bg': load_image("DJ Totote Fondo/DJ totote prime.png", (320, 240)),
+            'fabrica_bg' : load_image("fondo/fabrica.png", (320, 240)),
             'player/idle' : Animation(load_images("Reptiliano PJ/idle"), img_dur=18),
             'player/run' : Animation(load_images("Reptiliano PJ/run"), img_dur=6),
             'player/jump' : Animation(load_images("Reptiliano PJ/jump"), img_dur=10, loop=False),
@@ -111,9 +112,10 @@ class Game:
             # Reiniciar estrellas colectadas para este nivel
             self.collected_stars = set()
             
-            config = self.level_configs.get(level_id, {'max_time': 15, 'start_pos': [0, 0]})
+            config = self.level_configs.get(level_id, {'max_time': 15, 'start_pos': [0, 0], 'background' : 'background'})
             self.max_time = config['max_time'] 
             self.player.pos = config['start_pos'][:]
+            self.current_background = config['background']
 
             return True
         else:
@@ -156,15 +158,21 @@ class Game:
                 self.menu.render(self.display)
             elif self.game_state == "PLAYING":
                 # render de lo que se muestra
-                self.display.blit (self.assets['background'], (0,0))  # fondo 
-
+                if isinstance(self.current_background, tuple) :
+                    self.display.fill (self.current_background)  # fondo 
+                else :
+                    self.display.blit (self.assets[self.current_background], (0,0))
                 self.scroll[0] += (self.player.rect().centerx - self.display.get_width() / 2 - self.scroll[0]) / 30
                 self.scroll[1] += (self.player.rect().centery - self.display.get_height() / 2 - self.scroll[1]) / 30
                 render_scroll = (int(self.scroll[0]), int(self.scroll[1]))
 
+                movement = (self.movement[1] - self.movement[0], 0)
+                if self.tilemap.check_chair_collision(self.player.rect()) :
+                    movement = (movement[0] * 0.467, movement[1], 0)
+
                 self.tilemap.render(self.display, offset=self.scroll)
-                self.player.update(self.tilemap, (self.movement[1] - self.movement[0], 0), clicking=self.clicking)
-                self.player.render(self.display, offset = render_scroll)
+                self.player.update(self.tilemap, movement , clicking=self.clicking)
+                self.player.render(self.display, offset = render_scroll)                
 
                 star_collected = self.tilemap.check_star_collision(self.player.rect())
                 if star_collected:
@@ -172,6 +180,9 @@ class Game:
 
                 if self.tilemap.check_obama_collision (self.player.rect()) :
                     self.game_state = "WIN"
+
+                if self.tilemap.check_spikes_collision (self.player.rect()) :
+                    self.game_state = "LOSE"
             
             elif self.game_state == "LOSE":
                     self.menu.show_death()
