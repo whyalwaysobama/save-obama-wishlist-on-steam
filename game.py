@@ -22,9 +22,11 @@ class Game:
         self.fps = 60
         self.level_configs = {
             'tutorial': {'max_time': None, 'start_pos': [30, 100]},
-            1: {'max_time': 40000000000000, 'start_pos': [0, 115]},
+            1: {'max_time': 25, 'start_pos': [0, 115]},
             2: {'max_time': 18, 'start_pos': [0, 115]},
             3: {'max_time': 35, 'start_pos': [0, 115]},
+            4: {'max_time': 111111111111, 'start_pos': [0, 115]},
+
         }
         self.level_maps = {
             'tutorial': 'tuto.json',
