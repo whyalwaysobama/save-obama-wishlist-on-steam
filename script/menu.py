@@ -220,11 +220,6 @@ class Menu:
         self.tutorial_buttons = [self.volver_button, self.continue_button]
         self.levels_buttons = [self.volver_button]  # por ahora solo volver
         self.death_buttons = [self.volver_button, self.retry_button]
-        self.saves_buttons = [self.save1_button, self.save2_button, self.save3_button]
-   
-    def show_saves(self):
-        # mostrar selector de niveles
-        self.current_menu = "SAVES"
     
     def show_levels(self):
         # mostrar selector de niveles
@@ -279,6 +274,10 @@ class Menu:
         elif self.current_menu == "TUTORIAL":
             for button in self.tutorial_buttons:
                 button.update(scaled_mouse_pos)
+        elif self.current_menu == "SAVES":
+            self.save1_button.update(scaled_mouse_pos)
+            self.save2_button.update(scaled_mouse_pos)
+            self.save3_button.update(scaled_mouse_pos)        
         elif self.current_menu == "LEVELS":
             if self.modal_open:
                 # actualizar botones del modal
