@@ -26,7 +26,8 @@ class Game:
             1: {'max_time': 25, 'start_pos': [0, 115], 'background' : 'totote_bg'},
             2: {'max_time': 18, 'start_pos': [0, 115], 'background' : 'totote_bg'},
             3: {'max_time': 35, 'start_pos': [0, 115], 'background' : 'totote_bg'},
-            4: {'max_time': 111111111111, 'start_pos': [0, 115], 'background' : 'fabrica_bg'},
+            4: {'max_time': 40, 'start_pos': [0, 115], 'background' : 'fabrica_bg'},
+            5: {'max_time': 11111111, 'start_pos': [0, 115], 'background' : 'montaña_bg'},
 
         }
         self.level_maps = {
@@ -69,6 +70,7 @@ class Game:
             'elmatador' : load_images('Tiles/elmatador'),
             'totote_bg': load_image("DJ Totote Fondo/DJ totote prime.png", (320, 240)),
             'fabrica_bg' : load_image("fondo/fabrica.png", (320, 240)),
+            'montaña_bg' : load_image("fondo/fondomontaña.png", (320, 240)),
             'player/idle' : Animation(load_images("Reptiliano PJ/idle"), img_dur=18),
             'player/run' : Animation(load_images("Reptiliano PJ/run"), img_dur=6),
             'player/jump' : Animation(load_images("Reptiliano PJ/jump"), img_dur=10, loop=False),
