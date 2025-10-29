@@ -40,7 +40,7 @@ class Button:
 class Menu:
     def __init__(self, game):
         self.game = game
-        self.current_menu = "MAIN"  # "MAIN", "CREDITS", "TUTORIAL", "LEVELS", "LOSE"
+        self.current_menu = "MAIN"  # "MAIN", "CREDITS", "TUTORIAL", "LEVELS", "LOSE", "SAVES"
         
         # estado del modal de niveles
         self.modal_open = False
@@ -56,12 +56,12 @@ class Menu:
             {"rect": pygame.Rect(7, 22, 19, 38), "id": 1, "name": "Nivel 1"},
             {"rect": pygame.Rect(56, 10, 19, 38), "id": 2, "name": "Nivel 2"},
             {"rect": pygame.Rect(75, 52, 19, 38), "id": 3, "name": "Nivel 3"},
-            {"rect": pygame.Rect(226, 25, 29, 35), "id": 4, "name": "Nivel 4"},
-            {"rect": pygame.Rect(255, 38, 80, 38), "id": 5, "name": "Nivel 5"},
-            {"rect": pygame.Rect(227, 85, 29, 30), "id": 6, "name": "Nivel 6"},
-            {"rect": pygame.Rect(256, 100, 24, 34), "id": 7, "name": "Nivel 7"},
-            {"rect": pygame.Rect(280, 121, 20, 30), "id": 8, "name": "Nivel 8"},
-            {"rect": pygame.Rect(22, 102, 63, 55), "id": 9, "name": "Nivel 9"},
+            {"rect": pygame.Rect(255, 38, 80, 38), "id": 6, "name": "Nivel 6"},
+            {"rect": pygame.Rect(226, 25, 29, 35), "id": 5, "name": "Nivel 5"},
+            {"rect": pygame.Rect(256, 100, 24, 34), "id": 8, "name": "Nivel 8"},
+            {"rect": pygame.Rect(227, 85, 29, 30), "id": 7, "name": "Nivel 7"},
+            {"rect": pygame.Rect(22, 102, 63, 55), "id": 4, "name": "Nivel 4"},
+            {"rect": pygame.Rect(280, 121, 20, 30), "id": 9, "name": "Nivel 9"},
             {"rect": pygame.Rect(155, 150, 115, 37), "id": 10, "name": "Nivel 10"},
             {"rect": pygame.Rect(157, 68, 45, 80), "id": 11, "name": "Nivel Secreto"},
         ]
@@ -181,18 +181,46 @@ class Menu:
         self.retry_button = Button(
             x=215,
             y=196, # posicion 
-            normal_sprite=button_sprites[12], 
-            hover_sprite=button_sprites[11], # defino cada sprite
+            normal_sprite=button_sprites[13], 
+            hover_sprite=button_sprites[12], # defino cada sprite
             action=self.retry_level, # cambio modo actual
             scale=scale # escala
         )
         
+        self.save1_button = Button(
+            x=125,
+            y=60, # posicion 
+            normal_sprite=button_sprites[13], 
+            hover_sprite=button_sprites[12], # defino cada sprite
+            action=lambda i=0: self.on_save_clicked(i), # cambio modo actual
+            scale=scale # escala
+        )
+
+        self.save2_button = Button(
+            x=125,
+            y=120, # posicion 
+            normal_sprite=button_sprites[13], 
+            hover_sprite=button_sprites[12], # defino cada sprite
+            action=lambda i=1: self.on_save_clicked(i), # cambio modo actual
+            scale=scale # escala
+        )
+
+        self.save3_button = Button(
+            x=125,
+            y=180, # posicion 
+            normal_sprite=button_sprites[13], 
+            hover_sprite=button_sprites[12], # defino cada sprite
+            action=lambda i=2: self.on_save_clicked(i), # cambio modo actual
+            scale=scale # escala
+        )
+
         # listas de botones por menú
         self.main_buttons = [self.jugar_button, self.tutorial_button, self.creditos_button]
         self.credits_buttons = [self.volver_button]
         self.tutorial_buttons = [self.volver_button, self.continue_button]
         self.levels_buttons = [self.volver_button]  # por ahora solo volver
         self.death_buttons = [self.volver_button, self.retry_button]
+        self.saves_buttons = [self.save1_button, self.save2_button, self.save3_button, self.volver_button]
     
     def show_levels(self):
         # mostrar selector de niveles
@@ -234,6 +262,44 @@ class Menu:
         mouse_pos = pygame.mouse.get_pos()
         return (mouse_pos[0] * 320 // 1054, mouse_pos[1] * 240 // 512)
     
+    def update_saves_info(self):
+        self.update_saves_info = [None, None, None]
+        sp = getattr(self.game, 'save_progress', None)
+        if not sp:
+            return
+        if hasattr(sp, 'list_saves'):
+            lst = sp.list_saves()
+            for i in range(min(3, len(lst))):
+                self.saves_info[i] = lst[i]
+        elif hasattr(sp, 'get_saves_info'):
+            for i in range(3):
+                try:
+                    self.saves_info[i] = sp.get_saves_info(i)
+                except:
+                    self.saves_info[i] = None
+
+    def on_save_clicked(self, slot_index):
+        self.update_saves_info()
+        info = self.saves_info[slot_index] if hasattr (self, 'saves_info') else None
+        sp = getattr(self.game, 'save_progress', None)
+        if info:
+            if sp and hasattr(sp, 'load'):
+                try:
+                    sp.load(slot_index)
+                except:
+                    pass
+        else:
+            if sp and hasattr(sp, 'create'):
+                try:
+                    sp.create(slot_index)
+                except:
+                    pass
+            elif sp and hasattr(sp, 'load'):
+                try:
+                    sp.load(slot_index, {})
+                except:
+                    pass
+
     def update(self):
         # actualizar botones según el menú actual
         scaled_mouse_pos = self.get_scaled_mouse_pos()
@@ -247,6 +313,10 @@ class Menu:
         elif self.current_menu == "TUTORIAL":
             for button in self.tutorial_buttons:
                 button.update(scaled_mouse_pos)
+        elif self.current_menu == "SAVES":
+            self.save1_button.update(scaled_mouse_pos)
+            self.save2_button.update(scaled_mouse_pos)
+            self.save3_button.update(scaled_mouse_pos)        
         elif self.current_menu == "LEVELS":
             if self.modal_open:
                 # actualizar botones del modal
