@@ -225,6 +225,8 @@ class Game:
                         if event.key == pygame.K_LSHIFT:
                             self.slowmo = True
                             self.fps = 30
+                        if event.key == pygame.K_r:
+                            self.start_game(self.current_level)
                     if event.type == pygame.KEYUP:
                         if event.key == pygame.K_LEFT or event.key == pygame.K_a:
                             self.movement[0] = False
