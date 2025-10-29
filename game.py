@@ -23,13 +23,11 @@ class Game:
         self.current_background = 'background'
         self.level_configs = {
             'tutorial': {'max_time': None, 'start_pos': [30, 100], 'background' : (0, 0, 0)},
-            1: {'max_time': 25, 'start_pos': [0, 115], 'background' : 'totote_bg'},
-            2: {'max_time': 18, 'start_pos': [0, 115], 'background' : 'totote_bg'},
+            1: {'max_time': 45, 'start_pos': [0, 115], 'background' : 'totote_bg'},
+            2: {'max_time': 30, 'start_pos': [0, 115], 'background' : 'totote_bg'},
             3: {'max_time': 35, 'start_pos': [0, 115], 'background' : 'totote_bg'},
             4: {'max_time': 40, 'start_pos': [0, 115], 'background' : 'fabrica_bg'},
-            5: {'max_time': 50, 'start_pos': [0, 115], 'background' : 'montaña_bg'},
-            6: {'max_time': 1111111, 'start_pos': [0, 115], 'background' : 'montaña_bg'},
-            
+            5: {'max_time': 42, 'start_pos': [0, 115], 'background' : 'montaña_bg'},
 
         }
         self.level_maps = {
