@@ -192,7 +192,7 @@ class Menu:
             y=60, # posicion 
             normal_sprite=button_sprites[13], 
             hover_sprite=button_sprites[12], # defino cada sprite
-            action=self.show_levels, # cambio modo actual
+            action=lambda i=0: self.on_save_clicked(i), # cambio modo actual
             scale=scale # escala
         )
 
@@ -201,7 +201,7 @@ class Menu:
             y=120, # posicion 
             normal_sprite=button_sprites[13], 
             hover_sprite=button_sprites[12], # defino cada sprite
-            action=self.show_levels, # cambio modo actual
+            action=lambda i=1: self.on_save_clicked(i), # cambio modo actual
             scale=scale # escala
         )
 
@@ -210,7 +210,7 @@ class Menu:
             y=180, # posicion 
             normal_sprite=button_sprites[13], 
             hover_sprite=button_sprites[12], # defino cada sprite
-            action=self.show_levels, # cambio modo actual
+            action=lambda i=2: self.on_save_clicked(i), # cambio modo actual
             scale=scale # escala
         )
 
@@ -220,6 +220,7 @@ class Menu:
         self.tutorial_buttons = [self.volver_button, self.continue_button]
         self.levels_buttons = [self.volver_button]  # por ahora solo volver
         self.death_buttons = [self.volver_button, self.retry_button]
+        self.saves_buttons = [self.save1_button, self.save2_button, self.save3_button, self.volver_button]
     
     def show_levels(self):
         # mostrar selector de niveles
@@ -261,6 +262,44 @@ class Menu:
         mouse_pos = pygame.mouse.get_pos()
         return (mouse_pos[0] * 320 // 1054, mouse_pos[1] * 240 // 512)
     
+    def update_saves_info(self):
+        self.update_saves_info = [None, None, None]
+        sp = getattr(self.game, 'save_progress', None)
+        if not sp:
+            return
+        if hasattr(sp, 'list_saves'):
+            lst = sp.list_saves()
+            for i in range(min(3, len(lst))):
+                self.saves_info[i] = lst[i]
+        elif hasattr(sp, 'get_saves_info'):
+            for i in range(3):
+                try:
+                    self.saves_info[i] = sp.get_saves_info(i)
+                except:
+                    self.saves_info[i] = None
+
+    def on_save_clicked(self, slot_index):
+        self.update_saves_info()
+        info = self.saves_info[slot_index] if hasattr (self, 'saves_info') else None
+        sp = getattr(self.game, 'save_progress', None)
+        if info:
+            if sp and hasattr(sp, 'load'):
+                try:
+                    sp.load(slot_index)
+                except:
+                    pass
+        else:
+            if sp and hasattr(sp, 'create'):
+                try:
+                    sp.create(slot_index)
+                except:
+                    pass
+            elif sp and hasattr(sp, 'load'):
+                try:
+                    sp.load(slot_index, {})
+                except:
+                    pass
+
     def update(self):
         # actualizar botones según el menú actual
         scaled_mouse_pos = self.get_scaled_mouse_pos()
