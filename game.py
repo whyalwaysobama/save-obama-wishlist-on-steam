@@ -185,6 +185,15 @@ class Game:
 
                 if self.tilemap.check_obama_collision (self.player.rect()) :
                     self.game_state = "WIN"
+                    self.menu.current_menu = "WIN"
+                    self.timer_running = False
+                    stars_in_level = len(self.collected_stars)
+                    self.save_progress.update_level(
+                    self.current_level,
+                    stars_in_level,
+                    self.timer,
+                    completed=True
+                    )
 
                 if self.tilemap.check_spikes_collision (self.player.rect()) :
                     self.game_state = "LOSE"
@@ -193,6 +202,9 @@ class Game:
                     self.menu.show_death()
                     self.menu.update()
                     self.menu.render(self.display)
+            elif self.game_state == "WIN" :
+                self.menu.update()
+                self.menu.render(self.display)
             
             if self.timer_running :
                 self.timer += 1/60
@@ -238,16 +250,7 @@ class Game:
                             self.slowmo = False
                             self.fps = 60
                 elif self.game_state == "WIN":
-                    self.display.blit(load_image("fondo/win.png", (320, 240)), (0, 0))
-                    self.timer_running = False
-                    stars_in_level = len(self.collected_stars)
-                    self.save_progress.update_level(
-                        self.current_level,
-                        stars_in_level,
-                        self.timer,
-                        completed=True
-                    )
-                    self.timer = 0
+                    self.menu.handle_events(event)
 
                     if event.type == pygame.KEYDOWN :
                         if event.key == pygame.K_ESCAPE:

@@ -80,13 +80,12 @@ class Menu:
         self.death_bg = load_image("fondo/fondo_sin_obama.png", (320, 240))
         
     def start_tutorial_level(self):
-            self.game.start_game('tutorial')  # Asumiendo que el tutorial es el nivel 0
+            self.game.start_game('tutorial') 
 
     def start_selected_level(self):
         if self.selected_level:
             level_id = self.selected_level['id']
             print(f"Iniciando {self.selected_level['name']} (ID: {level_id})")
-            # aquí después pasarás el ID del nivel a start_game
             self.game.start_game(level_id)
             self.close_modal()
 
@@ -110,11 +109,29 @@ class Menu:
         # escala para achicar los botones
         scale = 0.5  
         
+        self.continue_after_w_button = Button(
+            x=215,
+            y=196, # posicion 
+            normal_sprite=button_sprites[7], 
+            hover_sprite=button_sprites[6], # defino cada sprite
+            action=self.show_levels, # cambio modo actual
+            scale=scale # escala
+        )
+
+        self.retry_after_w_button = Button(
+            x=1,
+            y=199, # posicion 
+            normal_sprite=button_sprites[13], 
+            hover_sprite=button_sprites[12], # defino cada sprite
+            action=self.retry_level, # cambio modo actual
+            scale=scale # escala
+        )
+
         self.continue_button = Button(
             x=215,
             y=196, # posicion 
-            normal_sprite=button_sprites[6], 
-            hover_sprite=button_sprites[7], # defino cada sprite
+            normal_sprite=button_sprites[7], 
+            hover_sprite=button_sprites[6], # defino cada sprite
             action=self.start_tutorial_level, # cambio modo actual
             scale=scale # escala
         ) 
@@ -218,7 +235,8 @@ class Menu:
         self.main_buttons = [self.jugar_button, self.tutorial_button, self.creditos_button]
         self.credits_buttons = [self.volver_button]
         self.tutorial_buttons = [self.volver_button, self.continue_button]
-        self.levels_buttons = [self.volver_button]  # por ahora solo volver
+        self.win_buttons = [self.continue_after_w_button, self.retry_after_w_button]
+        self.levels_buttons = [self.volver_button] 
         self.death_buttons = [self.volver_button, self.retry_button]
         self.saves_buttons = [self.save1_button, self.save2_button, self.save3_button, self.volver_button]
     
@@ -329,7 +347,10 @@ class Menu:
         elif self.current_menu == "LOSE":
             for button in self.death_buttons:
                 button.update(scaled_mouse_pos)
-    
+        elif self.current_menu == "WIN" :
+            for button in self.win_buttons :
+                button.update(scaled_mouse_pos)
+
     def handle_events(self, event):
         # manejar eventos del menu
         scaled_mouse_pos = self.get_scaled_mouse_pos()
@@ -378,6 +399,14 @@ class Menu:
                 self.back_to_main()
             if event.type == pygame.KEYDOWN and event.key == pygame.K_r:
                 self.retry_level()
+        elif self.current_menu == "WIN" :
+            for button in self.win_buttons :
+                button.is_clicked(scaled_mouse_pos, mouse_clicked)
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                self.back_to_main()
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_r:
+                self.retry_level()
+
     def render_credits_text(self, surf):
         # renderizar texto de creditos
         font = pygame.font.Font(None, 24)
@@ -501,6 +530,10 @@ class Menu:
         elif self.current_menu == "LOSE":
             surf.blit(load_image("fondo/lose.png", (320, 240)), (0, 0))
             for button in self.death_buttons:
+                button.render(surf)
+        elif self.current_menu == "WIN" :
+            surf.blit(load_image("fondo/win.png", (320, 240)), (0,0))
+            for button in self.win_buttons :
                 button.render(surf)
             
     def render_modal(self, surf):
