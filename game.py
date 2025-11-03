@@ -28,7 +28,8 @@ class Game:
             3: {'max_time': 35, 'start_pos': [0, 115], 'background' : 'totote_bg'},
             4: {'max_time': 40, 'start_pos': [0, 115], 'background' : 'fabrica_bg'},
             5: {'max_time': 50, 'start_pos': [0, 115], 'background' : 'montaña_bg'},
-            6: {'max_time': 1111111, 'start_pos': [0, 115], 'background' : 'presentacion_bg'},
+            6: {'max_time': 38, 'start_pos': [0, 115], 'background' : 'presentacion_bg'},
+            7: {'max_time': 50, 'start_pos': [0, 115], 'background' : 'presentacion_bg'},
             
 
         }
