@@ -30,6 +30,7 @@ class Game:
             5: {'max_time': 50, 'start_pos': [0, 115], 'background' : 'montaña_bg'},
             6: {'max_time': 38, 'start_pos': [0, 115], 'background' : 'presentacion_bg'},
             7: {'max_time': 50, 'start_pos': [0, 115], 'background' : 'granada_bg'},
+            8: {'max_time': 111111111, 'start_pos': [0, 115], 'background' : 'pradera_bg'},
             
 
         }
@@ -75,6 +76,7 @@ class Game:
             'fabrica_bg' : load_image("fondo/fabrica.png", (320, 240)),
             'montaña_bg' : load_image("fondo/fondomontaña.png", (320, 240)),
             'presentacion_bg' : load_image("fondo/fondopresentacion.png", (320, 240)),
+            'pradera_bg' : load_image("fondo/pradera.jpg", (320, 240)),
             'granada_bg' : load_image("fondo/granada.png", (320, 240)),
             'player/idle' : Animation(load_images("Reptiliano PJ/idle"), img_dur=18),
             'player/run' : Animation(load_images("Reptiliano PJ/run"), img_dur=6),
