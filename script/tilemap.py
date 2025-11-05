@@ -43,7 +43,8 @@ class Tilemap:
         f.close()
 
     def load (self, path) :
-        f = open(path, "r")
+        BASE_FOLDER_PATH = "maps/"
+        f = open(BASE_FOLDER_PATH + path, "r")
         map_data = json.load (f)
         f.close()
     

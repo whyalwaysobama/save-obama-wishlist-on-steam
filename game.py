@@ -90,6 +90,7 @@ class Game:
             'level 8' : load_images("Niveles/Nivel 8", (130, 230)),
             'level 9' : load_images("Niveles/Nivel 9", (130, 230)),
             'level 10' : load_images("Niveles/Nivel 10", (130, 230)),
+            'level 11' : load_images("Niveles/Nivel easter egg", (130, 230)),
         }
         
         # cargar fondo del menú
@@ -102,10 +103,10 @@ class Game:
         self.tilemap.load('3.json')
 
         # crear menú
-        self.menu = Menu(self)
         self.scroll = [0, 30]
 
         self.save_progress = SaveProgress()
+        self.menu = Menu(self)
 
     def load_level(self, level_id):
         if level_id in self.level_maps:
@@ -148,7 +149,6 @@ class Game:
         self.clicking = False
         self.fps = 60
         self.slowmo = False
-        
     
     def back_to_menu(self):
         # volver al menú

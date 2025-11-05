@@ -78,6 +78,7 @@ class Menu:
         self.tutorial_bg = load_image("fondo/fondo_sin_obama.png", (320, 240))
         self.levels_bg = load_image("Niveles/Niveles sin sida.png", (320, 240))
         self.death_bg = load_image("fondo/fondo_sin_obama.png", (320, 240))
+        self.saves_bg = load_image("fondo/fondo_sin_obama.png", (320, 240))
         
     def start_tutorial_level(self):
             self.game.start_game('tutorial') 
@@ -162,7 +163,7 @@ class Menu:
             y=115,
             normal_sprite=button_sprites[10],
             hover_sprite=button_sprites[11],
-            action=self.show_levels,  
+            action=self.show_saves,  
             scale=0.4
         )
         
@@ -207,28 +208,28 @@ class Menu:
         self.save1_button = Button(
             x=125,
             y=60, # posicion 
-            normal_sprite=button_sprites[13], 
-            hover_sprite=button_sprites[12], # defino cada sprite
+            normal_sprite=button_sprites[1], 
+            hover_sprite=button_sprites[0], # defino cada sprite
             action=lambda i=0: self.on_save_clicked(i), # cambio modo actual
-            scale=scale # escala
+            scale=0.25 # escala
         )
 
         self.save2_button = Button(
             x=125,
             y=120, # posicion 
-            normal_sprite=button_sprites[13], 
-            hover_sprite=button_sprites[12], # defino cada sprite
+            normal_sprite=button_sprites[3], 
+            hover_sprite=button_sprites[2], # defino cada sprite
             action=lambda i=1: self.on_save_clicked(i), # cambio modo actual
-            scale=scale # escala
+            scale=0.25 # escala
         )
 
         self.save3_button = Button(
             x=125,
             y=180, # posicion 
-            normal_sprite=button_sprites[13], 
-            hover_sprite=button_sprites[12], # defino cada sprite
+            normal_sprite=button_sprites[5], 
+            hover_sprite=button_sprites[4], # defino cada sprite
             action=lambda i=2: self.on_save_clicked(i), # cambio modo actual
-            scale=scale # escala
+            scale=0.25 # escala
         )
 
         # listas de botones por menú
@@ -261,6 +262,9 @@ class Menu:
     def show_credits(self):
         # mostrar pantalla de créditos
         self.current_menu = "CREDITS"
+
+    def show_saves (self) :
+        self.current_menu = "SAVES"
     
     def show_tutorial(self):
         # mostar pantalla de tutorial
@@ -280,44 +284,23 @@ class Menu:
         mouse_pos = pygame.mouse.get_pos()
         return (mouse_pos[0] * 320 // 1054, mouse_pos[1] * 240 // 512)
     
-    def update_saves_info(self):
-        self.update_saves_info = [None, None, None]
-        sp = getattr(self.game, 'save_progress', None)
-        if not sp:
-            return
-        if hasattr(sp, 'list_saves'):
-            lst = sp.list_saves()
-            for i in range(min(3, len(lst))):
-                self.saves_info[i] = lst[i]
-        elif hasattr(sp, 'get_saves_info'):
-            for i in range(3):
-                try:
-                    self.saves_info[i] = sp.get_saves_info(i)
-                except:
-                    self.saves_info[i] = None
+    def update_saves_info(self) :
+        self.saves_info = [None, None, None]
+        sp = self.game.save_progress
+        
+        if sp:
+            saves_list = sp.list_saves()
+            for i, save_data in enumerate(saves_list):
+                self.saves_info[i] = save_data
 
     def on_save_clicked(self, slot_index):
-        self.update_saves_info()
-        info = self.saves_info[slot_index] if hasattr (self, 'saves_info') else None
-        sp = getattr(self.game, 'save_progress', None)
-        if info:
-            if sp and hasattr(sp, 'load'):
-                try:
-                    sp.load(slot_index)
-                except:
-                    pass
-        else:
-            if sp and hasattr(sp, 'create'):
-                try:
-                    sp.create(slot_index)
-                except:
-                    pass
-            elif sp and hasattr(sp, 'load'):
-                try:
-                    sp.load(slot_index, {})
-                except:
-                    pass
+        sp = self.game.save_progress
+        if sp.save_exists (slot_index) :
+            sp.load(slot_index)
+        else: 
+            sp.create (slot_index)
 
+        self.show_levels()
     def update(self):
         # actualizar botones según el menú actual
         scaled_mouse_pos = self.get_scaled_mouse_pos()
@@ -406,6 +389,11 @@ class Menu:
                 self.back_to_main()
             if event.type == pygame.KEYDOWN and event.key == pygame.K_r:
                 self.retry_level()
+        elif self.current_menu == "SAVES" :
+            for button in self.saves_buttons :
+                button.is_clicked(scaled_mouse_pos, mouse_clicked)
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE :
+                self.back_to_main ()
 
     def render_credits_text(self, surf):
         # renderizar texto de creditos
@@ -534,6 +522,10 @@ class Menu:
         elif self.current_menu == "WIN" :
             surf.blit(load_image("fondo/win.png", (320, 240)), (0,0))
             for button in self.win_buttons :
+                button.render(surf)
+        elif self.current_menu == "SAVES" :
+            surf.blit(self.saves_bg, (0,0))
+            for button in self.saves_buttons :
                 button.render(surf)
             
     def render_modal(self, surf):
