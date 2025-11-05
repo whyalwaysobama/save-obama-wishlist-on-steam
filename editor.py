@@ -22,7 +22,9 @@ class Editor:
             'silla': load_images('Tiles/silla', (8,6)),
             'barrier' : load_images('Tiles/barrier'),
             'obama' : load_images('Obama_PJ'),
+            'obamacolgado' : load_images('Obama_PJ'),
             'laser' : load_images('Tiles/laser'),
+            'soga' : load_images('Tiles/laser'),
             'barril' : load_images('Tiles/barbarril'),
             'estrella' : load_images('Tiles/estrella'),
             'people' : load_images('Tiles/personas'),
@@ -35,7 +37,7 @@ class Editor:
         self.tilemap = Tilemap(self, tile_size=16)
 
         try: 
-            self.tilemap.load("7.json")
+            self.tilemap.load("4.json")
 
 
         except FileNotFoundError:
@@ -137,7 +139,7 @@ class Editor:
                     if event.key == pygame.K_t :
                         self.tilemap.autotile()
                     if event.key == pygame.K_o :
-                        self.tilemap.save('7.json')
+                        self.tilemap.save('4.json')
 
                 if event.type == pygame.KEYUP:
                     if event.key == pygame.K_LEFT or event.key == pygame.K_a:
