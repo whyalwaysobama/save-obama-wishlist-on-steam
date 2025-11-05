@@ -113,8 +113,8 @@ class Menu:
         self.continue_after_w_button = Button(
             x=215,
             y=196, # posicion 
-            normal_sprite=button_sprites[7], 
-            hover_sprite=button_sprites[6], # defino cada sprite
+            normal_sprite=button_sprites[9], 
+            hover_sprite=button_sprites[8], # defino cada sprite
             action=self.show_levels, # cambio modo actual
             scale=scale # escala
         )
@@ -122,8 +122,8 @@ class Menu:
         self.retry_after_w_button = Button(
             x=1,
             y=199, # posicion 
-            normal_sprite=button_sprites[13], 
-            hover_sprite=button_sprites[12], # defino cada sprite
+            normal_sprite=button_sprites[15], 
+            hover_sprite=button_sprites[14], # defino cada sprite
             action=self.retry_level, # cambio modo actual
             scale=scale # escala
         )
@@ -131,8 +131,8 @@ class Menu:
         self.continue_button = Button(
             x=215,
             y=196, # posicion 
-            normal_sprite=button_sprites[7], 
-            hover_sprite=button_sprites[6], # defino cada sprite
+            normal_sprite=button_sprites[9], 
+            hover_sprite=button_sprites[8], # defino cada sprite
             action=self.start_tutorial_level, # cambio modo actual
             scale=scale # escala
         ) 
@@ -141,8 +141,8 @@ class Menu:
         self.creditos_button = Button(
             x=200,
             y=150, # posicion 
-            normal_sprite=button_sprites[8], 
-            hover_sprite=button_sprites[9], # defino cada sprite
+            normal_sprite=button_sprites[10], 
+            hover_sprite=button_sprites[11], # defino cada sprite
             action=self.show_credits, # cambio modo actual
             scale=scale # escala
         )
@@ -151,8 +151,8 @@ class Menu:
         self.tutorial_button = Button(
             x=200,
             y=105,
-            normal_sprite=button_sprites[14],
-            hover_sprite=button_sprites[15],
+            normal_sprite=button_sprites[16],
+            hover_sprite=button_sprites[17],
             action=self.show_tutorial,
             scale=scale
         )
@@ -161,8 +161,8 @@ class Menu:
         self.jugar_button = Button(
             x=3,
             y=115,
-            normal_sprite=button_sprites[10],
-            hover_sprite=button_sprites[11],
+            normal_sprite=button_sprites[12],
+            hover_sprite=button_sprites[13],
             action=self.show_saves,  
             scale=0.4
         )
@@ -171,8 +171,8 @@ class Menu:
         self.volver_button = Button(
             x=1,
             y=199,
-            normal_sprite=button_sprites[16],
-            hover_sprite=button_sprites[17],
+            normal_sprite=button_sprites[18],
+            hover_sprite=button_sprites[19],
             action=self.back_to_main,
             scale=0.45
         )
@@ -191,16 +191,16 @@ class Menu:
         self.close_modal_button = Button(
             x=240,
             y=200,
-            normal_sprite=button_sprites[16],
-            hover_sprite=button_sprites[17],
+            normal_sprite=button_sprites[18],
+            hover_sprite=button_sprites[19],
             action=self.close_modal,
             scale=0.35
         )
         self.retry_button = Button(
             x=215,
             y=196, # posicion 
-            normal_sprite=button_sprites[13], 
-            hover_sprite=button_sprites[12], # defino cada sprite
+            normal_sprite=button_sprites[15], 
+            hover_sprite=button_sprites[14], # defino cada sprite
             action=self.retry_level, # cambio modo actual
             scale=scale # escala
         )
@@ -208,8 +208,8 @@ class Menu:
         self.save1_button = Button(
             x=125,
             y=60, # posicion 
-            normal_sprite=button_sprites[1], 
-            hover_sprite=button_sprites[0], # defino cada sprite
+            normal_sprite=button_sprites[3], 
+            hover_sprite=button_sprites[2], # defino cada sprite
             action=lambda i=0: self.on_save_clicked(i), # cambio modo actual
             scale=0.25 # escala
         )
@@ -217,8 +217,8 @@ class Menu:
         self.save2_button = Button(
             x=125,
             y=120, # posicion 
-            normal_sprite=button_sprites[3], 
-            hover_sprite=button_sprites[2], # defino cada sprite
+            normal_sprite=button_sprites[5], 
+            hover_sprite=button_sprites[4], # defino cada sprite
             action=lambda i=1: self.on_save_clicked(i), # cambio modo actual
             scale=0.25 # escala
         )
@@ -226,8 +226,8 @@ class Menu:
         self.save3_button = Button(
             x=125,
             y=180, # posicion 
-            normal_sprite=button_sprites[5], 
-            hover_sprite=button_sprites[4], # defino cada sprite
+            normal_sprite=button_sprites[7], 
+            hover_sprite=button_sprites[6], # defino cada sprite
             action=lambda i=2: self.on_save_clicked(i), # cambio modo actual
             scale=0.25 # escala
         )
