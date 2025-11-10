@@ -31,7 +31,7 @@ class Game:
             6: {'max_time': 38, 'start_pos': [0, 115], 'background' : 'presentacion_bg'},
             7: {'max_time': 50, 'start_pos': [0, 115], 'background' : 'granada_bg'},
             8: {'max_time': 60, 'start_pos': [0, 115], 'background' : 'pradera_bg'},
-            9: {'max_time': 90, 'start_pos': [0, 115], 'background' : 'sombra_bg'},
+            9: {'max_time': 111111111, 'start_pos': [0, 115], 'background' : 'pradera_bg'},
             
 
         }
@@ -80,7 +80,7 @@ class Game:
             'montaña_bg' : load_image("fondo/fondomontaña.png", (320, 240)),
             'presentacion_bg' : load_image("fondo/fondopresentacion.png", (320, 240)),
             'pradera_bg' : load_image("fondo/pradera.jpg", (320, 240)),
-            'sombra_bg' : load_image("fondo/imagensombra.png", (320, 240)),
+            'pradera_bg' : load_image("fondo/pradera.jpg", (320, 240)),
             'granada_bg' : load_image("fondo/granada.png", (320, 240)),
             'player/idle' : Animation(load_images("Reptiliano PJ/idle"), img_dur=18),
             'player/run' : Animation(load_images("Reptiliano PJ/run"), img_dur=6),
@@ -202,6 +202,17 @@ class Game:
                     self.timer,
                     completed=True
                     )
+                    
+                    # Desbloquear el siguiente nivel
+                    if self.current_level != 'tutorial' and self.current_level < 10:  # Asumiendo que 10 es el último nivel
+                        next_level = self.current_level + 1
+                        # Marcar el siguiente nivel como desbloqueado (completando el anterior)
+                        self.save_progress.update_level(
+                            next_level,
+                            0,
+                            None,
+                            completed=False  # No está completado, pero está desbloqueado
+                        )
 
                 if self.tilemap.check_spikes_collision (self.player.rect()) :
                     self.game_state = "LOSE"

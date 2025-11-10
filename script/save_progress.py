@@ -192,6 +192,28 @@ class SaveProgress:
             return self.data['levels'][level_key]['completed']
         return False
     
+    def is_level_unlocked(self, level_id):
+        """Verifica si un nivel está desbloqueado"""
+        if self.data is None:
+            return False
+        
+        # El tutorial siempre está desbloqueado
+        if level_id == 'tutorial':
+            return True
+        
+        # El nivel 1 siempre está desbloqueado
+        if level_id == 1:
+            return True
+        
+        # Para otros niveles, verificar si el nivel anterior está completado
+        prev_level = level_id - 1
+        prev_level_key = str(prev_level)
+        
+        if prev_level_key in self.data['levels']:
+            return self.data['levels'][prev_level_key]['completed']
+        
+        return False
+    
     def get_total_stars(self):
         """Obtiene el total de estrellas recolectadas"""
         if self.data is None:
