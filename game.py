@@ -32,6 +32,7 @@ class Game:
             7: {'max_time': 50, 'start_pos': [0, 115], 'background' : 'granada_bg'},
             8: {'max_time': 60, 'start_pos': [0, 115], 'background' : 'pradera_bg'},
             9: {'max_time': 90, 'start_pos': [0, 115], 'background' : 'sombra_bg'},
+            10: {'max_time': 90, 'start_pos': [0, 115], 'background' : 'epico_bg'},
             
 
         }
@@ -81,6 +82,7 @@ class Game:
             'presentacion_bg' : load_image("fondo/fondopresentacion.png", (320, 240)),
             'pradera_bg' : load_image("fondo/pradera.jpg", (320, 240)),
             'sombra_bg' : load_image("fondo/imagensombra.png", (320, 240)),
+            'epico_bg' : load_image("fondo/obamaepico.png", (320, 240)),
             'granada_bg' : load_image("fondo/granada.png", (320, 240)),
             'player/idle' : Animation(load_images("Reptiliano PJ/idle"), img_dur=18),
             'player/run' : Animation(load_images("Reptiliano PJ/run"), img_dur=6),
