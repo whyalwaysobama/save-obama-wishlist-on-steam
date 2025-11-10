@@ -24,14 +24,21 @@ class Button:
         # en caso de que este el mouse encima da true
         self.is_hovered = self.rect.collidepoint(mouse_pos)
     
-    def render(self, surf):
-        # si self.is_hovered es true usa el sprite cambiado
-        sprite = self.hover_sprite if self.is_hovered else self.normal_sprite
-        surf.blit(sprite, (self.x, self.y))
+    def render(self, surf, disabled=False):
+        # si está deshabilitado, mostrar en gris
+        if disabled:
+            # Crear una versión gris del sprite
+            gray_sprite = self.normal_sprite.copy()
+            gray_sprite.fill((100, 100, 100), special_flags=pygame.BLEND_RGB_MULT)
+            surf.blit(gray_sprite, (self.x, self.y))
+        # sino, mostrar normal o hover
+        else:
+            sprite = self.hover_sprite if self.is_hovered else self.normal_sprite
+            surf.blit(sprite, (self.x, self.y))
     
-    def is_clicked(self, mouse_pos, mouse_clicked):
+    def is_clicked(self, mouse_pos, mouse_clicked, disabled=False):
         # verifica si el boton se clickeo
-        if self.rect.collidepoint(mouse_pos) and mouse_clicked:
+        if self.rect.collidepoint(mouse_pos) and mouse_clicked and not disabled:
             if self.action:
                 self.action()
             return True
@@ -50,6 +57,11 @@ class Menu:
         self.overlay = pygame.Surface((320, 240))
         self.overlay.set_alpha(180)  # transparencia
         self.overlay.fill((0, 0, 0))  # negro
+        
+        # overlay gris para niveles bloqueados
+        self.gray_overlay = pygame.Surface((320, 240))
+        self.gray_overlay.set_alpha(180)  # transparencia
+        self.gray_overlay.fill((100, 100, 100))  # gris
         
         # definir zonas clickeables de niveles (x, y, ancho, alto)
         self.level_zones = [
@@ -86,9 +98,11 @@ class Menu:
     def start_selected_level(self):
         if self.selected_level:
             level_id = self.selected_level['id']
-            print(f"Iniciando {self.selected_level['name']} (ID: {level_id})")
-            self.game.start_game(level_id)
-            self.close_modal()
+            # Verificar si el nivel está desbloqueado antes de iniciar
+            if self.game.save_progress.is_level_unlocked(level_id):
+                print(f"Iniciando {self.selected_level['name']} (ID: {level_id})")
+                self.game.start_game(level_id)
+                self.close_modal()
 
     def retry_level(self):
         # reinicia el nivel actual (fallback a 'tutorial' si no hay current_level)
@@ -360,7 +374,10 @@ class Menu:
                     self.close_modal()  # cerrar el modal y volver al menú de niveles
                 # manejar clicks en el modal
                 if mouse_clicked:
-                    self.play_modal_button.is_clicked(scaled_mouse_pos, mouse_clicked)
+                    # Verificar si el nivel está desbloqueado para habilitar/deshabilitar el botón
+                    level_id = self.selected_level['id']
+                    is_unlocked = self.game.save_progress.is_level_unlocked(level_id)
+                    self.play_modal_button.is_clicked(scaled_mouse_pos, mouse_clicked, disabled=not is_unlocked)
                     self.close_modal_button.is_clicked(scaled_mouse_pos, mouse_clicked)
             else:
                 # verificar clicks en zonas de niveles
@@ -369,7 +386,6 @@ class Menu:
                         try:
                             if zone["rect"].collidepoint(scaled_mouse_pos):
                                 self.open_modal(zone)
-                                
                         except:
                             pass
                     # si no clickeó en ningún nivel, verificar botón volver
@@ -504,9 +520,6 @@ class Menu:
         elif self.current_menu == "LEVELS":
             # renderizar selector de niveles
             surf.blit(self.levels_bg, (0, 0))
-
-            #for zone in self.level_zones:
-                #pygame.draw.rect(surf, (255, 0, 0), zone["rect"], 2)
             
             # si el modal está abierto, renderizarlo
             if self.modal_open:
@@ -532,8 +545,11 @@ class Menu:
         # dibujar overlay oscuro
         surf.blit(self.overlay, (0, 0))
         
-        # renderizar imagen del nivel según el id
+        # Verificar si el nivel está desbloqueado
         level_id = self.selected_level['id']
+        is_unlocked = self.game.save_progress.is_level_unlocked(level_id)
+        
+        # renderizar imagen del nivel según el id
         asset_key = f'level {level_id}'
         if asset_key in self.game.assets:
             stars = self.game.save_progress.get_level_stars(level_id)
@@ -541,6 +557,13 @@ class Menu:
             level_img = self.game.assets[asset_key][img_index]
             img_rect = level_img.get_rect(center=(160, 120))
             surf.blit(level_img, img_rect)
+            
+            # Si el nivel no está desbloqueado, aplicar overlay gris
+            if not is_unlocked:
+                gray_surface = pygame.Surface((level_img.get_width(), level_img.get_height()))
+                gray_surface.set_alpha(180)  # Transparencia
+                gray_surface.fill((100, 100, 100))  # Color gris
+                surf.blit(gray_surface, img_rect)
         
         # renderizar texto del nivel
         font_title = pygame.font.Font(None, 28)
@@ -549,5 +572,5 @@ class Menu:
         surf.blit(title_text, title_rect)
         
         # renderizar botones del modal
-        self.play_modal_button.render(surf)
+        self.play_modal_button.render(surf, disabled=not is_unlocked)
         self.close_modal_button.render(surf)

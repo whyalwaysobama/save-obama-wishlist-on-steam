@@ -31,7 +31,7 @@ class Game:
             6: {'max_time': 38, 'start_pos': [0, 115], 'background' : 'presentacion_bg'},
             7: {'max_time': 50, 'start_pos': [0, 115], 'background' : 'granada_bg'},
             8: {'max_time': 60, 'start_pos': [0, 115], 'background' : 'pradera_bg'},
-            9: {'max_time': 90, 'start_pos': [0, 115], 'background' : 'sombra_bg'},
+          9: {'max_time': 90, 'start_pos': [0, 115], 'background' : 'sombra_bg'},
             10: {'max_time': 90, 'start_pos': [0, 115], 'background' : 'epico_bg'},
             
 
@@ -204,6 +204,17 @@ class Game:
                     self.timer,
                     completed=True
                     )
+                    
+                    # Desbloquear el siguiente nivel
+                    if self.current_level != 'tutorial' and self.current_level < 10:  # Asumiendo que 10 es el último nivel
+                        next_level = self.current_level + 1
+                        # Marcar el siguiente nivel como desbloqueado (completando el anterior)
+                        self.save_progress.update_level(
+                            next_level,
+                            0,
+                            None,
+                            completed=False  # No está completado, pero está desbloqueado
+                        )
 
                 if self.tilemap.check_spikes_collision (self.player.rect()) :
                     self.game_state = "LOSE"

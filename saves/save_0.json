@@ -6,44 +6,44 @@
             "best_time": null
         },
         "1": {
-            "stars": 0,
-            "completed": false,
-            "best_time": null
+            "stars": 3,
+            "completed": true,
+            "best_time": 41.42
         },
         "2": {
-            "stars": 0,
-            "completed": false,
-            "best_time": null
+            "stars": 3,
+            "completed": true,
+            "best_time": 29.7
         },
         "3": {
-            "stars": 0,
-            "completed": false,
-            "best_time": null
+            "stars": 3,
+            "completed": true,
+            "best_time": 32.05
         },
         "4": {
             "stars": 3,
             "completed": true,
-            "best_time": 29.65
+            "best_time": 28.25
         },
         "5": {
-            "stars": 0,
-            "completed": false,
-            "best_time": null
-        },
-        "6": {
-            "stars": 0,
-            "completed": false,
-            "best_time": null
-        },
-        "7": {
-            "stars": 0,
-            "completed": false,
-            "best_time": null
-        },
-        "8": {
             "stars": 3,
             "completed": true,
-            "best_time": 77.28
+            "best_time": 44.88
+        },
+        "6": {
+            "stars": 3,
+            "completed": true,
+            "best_time": 30.22
+        },
+        "7": {
+            "stars": 3,
+            "completed": true,
+            "best_time": 34.28
+        },
+        "8": {
+            "stars": 0,
+            "completed": false,
+            "best_time": null
         },
         "9": {
             "stars": 3,
