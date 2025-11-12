@@ -100,11 +100,12 @@ class Game:
             'level 10' : load_images("Niveles/Nivel 10", (130, 230)),
             'level 11' : load_images("Niveles/Nivel easter egg", (130, 230)),
         }
-        
+
         # cargar fondo del menú
         self.menu_bg = load_image("Obama_PJ/Menu_chad_sin_botones.png", (320, 240))
+        self.huergo = load_image('logo.jpg', (75, 75))
         self.backround = load_image("fondo/fabrica.png", (320, 240))
-        
+
         # crear entidades del juego
         self.player = Player(self, (50, 50), (11, 16))
         self.tilemap = Tilemap(self, tile_size=16)

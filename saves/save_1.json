@@ -1,0 +1,67 @@
+{
+    "levels": {
+        "tutorial": {
+            "stars": 0,
+            "completed": false,
+            "best_time": null
+        },
+        "1": {
+            "stars": 0,
+            "completed": false,
+            "best_time": null
+        },
+        "2": {
+            "stars": 0,
+            "completed": false,
+            "best_time": null
+        },
+        "3": {
+            "stars": 0,
+            "completed": false,
+            "best_time": null
+        },
+        "4": {
+            "stars": 0,
+            "completed": false,
+            "best_time": null
+        },
+        "5": {
+            "stars": 0,
+            "completed": false,
+            "best_time": null
+        },
+        "6": {
+            "stars": 0,
+            "completed": false,
+            "best_time": null
+        },
+        "7": {
+            "stars": 0,
+            "completed": false,
+            "best_time": null
+        },
+        "8": {
+            "stars": 0,
+            "completed": false,
+            "best_time": null
+        },
+        "9": {
+            "stars": 0,
+            "completed": false,
+            "best_time": null
+        },
+        "10": {
+            "stars": 0,
+            "completed": false,
+            "best_time": null
+        },
+        "11": {
+            "stars": 0,
+            "completed": false,
+            "best_time": null
+        }
+    },
+    "created_at": 1762952795.6178973,
+    "last_played": 1762952795.6178992,
+    "total_stars": 0
+}

@@ -348,7 +348,7 @@ class Menu:
         except Exception :
             success = False
 
-        self.update_saves_info
+        self.update_saves_info()
         return success
 
     def update_saves_info(self) :
@@ -550,6 +550,7 @@ class Menu:
         elif self.current_menu == "CREDITS":
             # renderizar fondo de créditos
             surf.blit(self.credits_bg, (0, 0))
+            surf.blit(self.game.huergo, (250, 10))
             
             # renderizar texto de créditos
             self.render_credits_text(surf)
