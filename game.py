@@ -32,7 +32,7 @@ class Game:
             7: {'max_time': 50, 'start_pos': [0, 115], 'background' : 'granada_bg'},
             8: {'max_time': 60, 'start_pos': [0, 115], 'background' : 'pradera_bg'},
           9: {'max_time': 90, 'start_pos': [0, 115], 'background' : 'sombra_bg'},
-            10: {'max_time': 90, 'start_pos': [0, 115], 'background' : 'epico_bg'},
+            10: {'max_time': 11111111111111111111, 'start_pos': [0, 115], 'background' : 'epico_bg'},
             
 
         }
