@@ -1,9 +1,9 @@
 {
     "levels": {
         "tutorial": {
-            "stars": 0,
-            "completed": false,
-            "best_time": null
+            "stars": 2,
+            "completed": true,
+            "best_time": 33.35
         },
         "1": {
             "stars": 3,
@@ -62,6 +62,6 @@
         }
     },
     "created_at": 1762345561.4936104,
-    "last_played": 1762944229.1230774,
+    "last_played": 1762955581.354744,
     "total_stars": 0
 }
