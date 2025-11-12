@@ -194,21 +194,19 @@ class SaveProgress:
     
     def is_level_unlocked(self, level_id):
         """Verifica si un nivel está desbloqueado"""
+        
+        if level_id == 'tutorial' or level_id == 1:
+            return True 
+        
+        if level_id == 11 :
+            return self.get_total_stars() >= 30
+        
         if self.data is None:
             return False
         
-        # El tutorial siempre está desbloqueado
-        if level_id == 'tutorial':
-            return True
-        
-        # El nivel 1 siempre está desbloqueado
-        if level_id == 1:
-            return True
-        
-        # Para otros niveles, verificar si el nivel anterior está completado
         prev_level = level_id - 1
         prev_level_key = str(prev_level)
-        
+
         if prev_level_key in self.data['levels']:
             return self.data['levels'][prev_level_key]['completed']
         
