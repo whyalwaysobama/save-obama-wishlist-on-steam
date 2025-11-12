@@ -31,7 +31,7 @@ class Game:
             6: {'max_time': 38, 'start_pos': [0, 115], 'background' : 'presentacion_bg'},
             7: {'max_time': 50, 'start_pos': [0, 115], 'background' : 'granada_bg'},
             8: {'max_time': 60, 'start_pos': [0, 115], 'background' : 'pradera_bg'},
-          9: {'max_time': 90, 'start_pos': [0, 115], 'background' : 'sombra_bg'},
+            9: {'max_time': 90, 'start_pos': [0, 115], 'background' : 'sombra_bg'},
             10: {'max_time': 90, 'start_pos': [0, 115], 'background' : 'epico_bg'},
             
 
@@ -108,7 +108,6 @@ class Game:
         # crear entidades del juego
         self.player = Player(self, (50, 50), (11, 16))
         self.tilemap = Tilemap(self, tile_size=16)
-        self.tilemap.load('3.json')
 
         # crear menú
         self.scroll = [0, 30]

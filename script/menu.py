@@ -124,6 +124,33 @@ class Menu:
         # escala para achicar los botones
         scale = 0.5  
         
+        self.delete1_button = Button(
+            x=215,
+            y=30, # posicion 
+            normal_sprite=button_sprites[1], 
+            hover_sprite=button_sprites[0], # defino cada sprite
+            action=lambda i=0: self.delete_save(i), # cambio modo actual
+            scale=0.25 # escala
+        )
+        
+        self.delete2_button = Button(
+            x=215,
+            y=90, # posicion 
+            normal_sprite=button_sprites[1], 
+            hover_sprite=button_sprites[0], # defino cada sprite
+            action=lambda i=1: self.delete_save(i), # cambio modo actual
+            scale=0.25 # escala
+        )
+
+        self.delete3_button = Button(
+            x=215,
+            y=150, # posicion 
+            normal_sprite=button_sprites[1], 
+            hover_sprite=button_sprites[0], # defino cada sprite
+            action=lambda i=2: self.delete_save(i), # cambio modo actual
+            scale=0.25 # escala
+        )
+
         self.continue_after_w_button = Button(
             x=215,
             y=196, # posicion 
@@ -139,7 +166,7 @@ class Menu:
             normal_sprite=button_sprites[15], 
             hover_sprite=button_sprites[14], # defino cada sprite
             action=self.retry_level, # cambio modo actual
-            scale=scale # escala
+            scale=0.3 # escala
         )
 
         self.continue_button = Button(
@@ -191,6 +218,14 @@ class Menu:
             scale=0.45
         )
         
+        self.volver_saves_button = Button(
+            x=1,
+            y=199,
+            normal_sprite=button_sprites[18],
+            hover_sprite=button_sprites[19],
+            action=self.show_saves,
+            scale=0.45
+        )
         # boton play para el modal de niveles
         self.play_modal_button = Button(
             x=125,
@@ -220,8 +255,8 @@ class Menu:
         )
         
         self.save1_button = Button(
-            x=125,
-            y=60, # posicion 
+            x=110,
+            y=30, # posicion 
             normal_sprite=button_sprites[3], 
             hover_sprite=button_sprites[2], # defino cada sprite
             action=lambda i=0: self.on_save_clicked(i), # cambio modo actual
@@ -229,8 +264,8 @@ class Menu:
         )
 
         self.save2_button = Button(
-            x=125,
-            y=120, # posicion 
+            x=110,
+            y=90, # posicion 
             normal_sprite=button_sprites[5], 
             hover_sprite=button_sprites[4], # defino cada sprite
             action=lambda i=1: self.on_save_clicked(i), # cambio modo actual
@@ -238,8 +273,8 @@ class Menu:
         )
 
         self.save3_button = Button(
-            x=125,
-            y=180, # posicion 
+            x=110,
+            y=150, # posicion 
             normal_sprite=button_sprites[7], 
             hover_sprite=button_sprites[6], # defino cada sprite
             action=lambda i=2: self.on_save_clicked(i), # cambio modo actual
@@ -251,9 +286,9 @@ class Menu:
         self.credits_buttons = [self.volver_button]
         self.tutorial_buttons = [self.volver_button, self.continue_button]
         self.win_buttons = [self.continue_after_w_button, self.retry_after_w_button]
-        self.levels_buttons = [self.volver_button] 
+        self.levels_buttons = [self.volver_saves_button] 
         self.death_buttons = [self.volver_button, self.retry_button]
-        self.saves_buttons = [self.save1_button, self.save2_button, self.save3_button, self.volver_button]
+        self.saves_buttons = [self.save1_button, self.save2_button, self.save3_button, self.volver_button, self.delete1_button, self.delete2_button, self.delete3_button]
     
     def show_levels(self):
         # mostrar selector de niveles
@@ -279,6 +314,7 @@ class Menu:
 
     def show_saves (self) :
         self.current_menu = "SAVES"
+        self.update_saves_info()
     
     def show_tutorial(self):
         # mostar pantalla de tutorial
@@ -298,6 +334,23 @@ class Menu:
         mouse_pos = pygame.mouse.get_pos()
         return (mouse_pos[0] * 320 // 1054, mouse_pos[1] * 240 // 512)
     
+    def delete_save (self, slot) :
+        sp = self.game.save_progress
+        if not sp :
+            return False
+        
+        if sp.current_slot == slot :
+            sp.current_slot = None
+            sp.data = None
+        
+        try:
+            success = sp.delete_save(slot)
+        except Exception :
+            success = False
+
+        self.update_saves_info
+        return success
+
     def update_saves_info(self) :
         self.saves_info = [None, None, None]
         sp = self.game.save_progress
@@ -329,9 +382,8 @@ class Menu:
             for button in self.tutorial_buttons:
                 button.update(scaled_mouse_pos)
         elif self.current_menu == "SAVES":
-            self.save1_button.update(scaled_mouse_pos)
-            self.save2_button.update(scaled_mouse_pos)
-            self.save3_button.update(scaled_mouse_pos)        
+            for button in self.saves_buttons:
+                button.update(scaled_mouse_pos)
         elif self.current_menu == "LEVELS":
             if self.modal_open:
                 # actualizar botones del modal
