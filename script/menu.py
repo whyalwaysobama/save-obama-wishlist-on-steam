@@ -66,7 +66,7 @@ class Menu:
         # definir zonas clickeables de niveles (x, y, ancho, alto)
         self.level_zones = [
             {"rect": pygame.Rect(7, 22, 19, 38), "id": 1, "name": "Nivel 1"},
-            {"rect": pygame.Rect(56, 10, 19, 38), "id": 2, "name": "Nivel 2"},
+            {"rect": pygame.Rect(56, 10, 19, 37), "id": 2, "name": "Nivel 2"},
             {"rect": pygame.Rect(75, 52, 19, 38), "id": 3, "name": "Nivel 3"},
             {"rect": pygame.Rect(255, 38, 80, 38), "id": 6, "name": "Nivel 6"},
             {"rect": pygame.Rect(226, 25, 29, 35), "id": 5, "name": "Nivel 5"},
@@ -579,8 +579,29 @@ class Menu:
                 self.render_modal(surf)
             else:
                 # renderizar botón de volver
+                for zone in self.level_zones:
+                    rect = zone["rect"]
+
+                    overlay = pygame.Surface((rect.width, rect.height), pygame.SRCALPHA)
+                    unlocked = False 
+
+                    try :
+                        unlocked = bool(self.game.save_progress.is_level_unlocked(zone["id"]))
+                    except Exception:
+                        pass
+                    
+                    if unlocked:
+                        # dorado semi-transparente
+                        overlay.fill((212, 175, 55, 145))  # RGBA dorado
+                    else:
+                        # grisáceo semi-transparente
+                        overlay.fill((190, 190, 200, 145))  # RGBA grisáceo
+
+                    surf.blit(overlay, rect.topleft)
+
                 for button in self.levels_buttons:
                     button.render(surf)
+
         elif self.current_menu == "LOSE":
             surf.blit(load_image("fondo/lose.png", (320, 240)), (0, 0))
             for button in self.death_buttons:
