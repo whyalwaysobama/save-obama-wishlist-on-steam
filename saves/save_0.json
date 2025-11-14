@@ -3,12 +3,12 @@
         "tutorial": {
             "stars": 2,
             "completed": true,
-            "best_time": 33.35
+            "best_time": 6.37
         },
         "1": {
             "stars": 3,
             "completed": true,
-            "best_time": 27.88
+            "best_time": 23.83
         },
         "2": {
             "stars": 3,
@@ -62,6 +62,6 @@
         }
     },
     "created_at": 1762345561.4936104,
-    "last_played": 1763000507.6602468,
+    "last_played": 1763089704.355224,
     "total_stars": 0
 }

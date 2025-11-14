@@ -162,11 +162,11 @@ class Menu:
 
         self.retry_after_w_button = Button(
             x=1,
-            y=199, # posicion 
+            y=196, # posicion 
             normal_sprite=button_sprites[15], 
             hover_sprite=button_sprites[14], # defino cada sprite
             action=self.retry_level, # cambio modo actual
-            scale=0.3 # escala
+            scale=scale # escala
         )
 
         self.continue_button = Button(
@@ -211,11 +211,11 @@ class Menu:
         # boton volver - para créditos, tutorial y niveles
         self.volver_button = Button(
             x=1,
-            y=199,
+            y=196,
             normal_sprite=button_sprites[18],
             hover_sprite=button_sprites[19],
             action=self.back_to_main,
-            scale=0.45
+            scale=scale
         )
         
         self.volver_saves_button = Button(
@@ -512,7 +512,7 @@ class Menu:
 
     def render_tutorial_text(self, surf):
         # renderizar texto de tutorial (controles)
-        font = pygame.font.Font(None, 20)
+        font = pygame.font.Font(None, 18)
         title_font = pygame.font.Font(None, 28)
         
         
@@ -526,10 +526,12 @@ class Menu:
             "Flecha izq / A: Mover izquierda",
             "Flecha der / D: Mover derecha", 
             "E: Tirarse",
+            "R: Reiniciar nivel",
+            "Left Shift: Slow motion",
             "ESC: Volver al menu",
         ]
         
-        y = 60
+        y = 25
         for line in tutorial_lines:
             if line:
                 text_surface = font.render(line, True, (255, 255, 255))

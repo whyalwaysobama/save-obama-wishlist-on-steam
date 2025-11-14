@@ -6,9 +6,9 @@
             "best_time": null
         },
         "1": {
-            "stars": 0,
-            "completed": false,
-            "best_time": null
+            "stars": 3,
+            "completed": true,
+            "best_time": 23.33
         },
         "2": {
             "stars": 0,
@@ -62,6 +62,6 @@
         }
     },
     "created_at": 1762952795.6178973,
-    "last_played": 1763000877.8963208,
+    "last_played": 1763087467.8878126,
     "total_stars": 0
 }
