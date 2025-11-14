@@ -125,7 +125,7 @@ class Menu:
         scale = 0.5  
         
         self.delete1_button = Button(
-            x=215,
+            x=208,
             y=30, # posicion 
             normal_sprite=button_sprites[1], 
             hover_sprite=button_sprites[0], # defino cada sprite
@@ -134,7 +134,7 @@ class Menu:
         )
         
         self.delete2_button = Button(
-            x=215,
+            x=208,
             y=90, # posicion 
             normal_sprite=button_sprites[1], 
             hover_sprite=button_sprites[0], # defino cada sprite
@@ -143,7 +143,7 @@ class Menu:
         )
 
         self.delete3_button = Button(
-            x=215,
+            x=208,
             y=150, # posicion 
             normal_sprite=button_sprites[1], 
             hover_sprite=button_sprites[0], # defino cada sprite
@@ -255,7 +255,7 @@ class Menu:
         )
         
         self.save1_button = Button(
-            x=110,
+            x=103,
             y=30, # posicion 
             normal_sprite=button_sprites[3], 
             hover_sprite=button_sprites[2], # defino cada sprite
@@ -264,7 +264,7 @@ class Menu:
         )
 
         self.save2_button = Button(
-            x=110,
+            x=103,
             y=90, # posicion 
             normal_sprite=button_sprites[5], 
             hover_sprite=button_sprites[4], # defino cada sprite
@@ -273,7 +273,7 @@ class Menu:
         )
 
         self.save3_button = Button(
-            x=110,
+            x=103,
             y=150, # posicion 
             normal_sprite=button_sprites[7], 
             hover_sprite=button_sprites[6], # defino cada sprite
@@ -550,7 +550,7 @@ class Menu:
         elif self.current_menu == "CREDITS":
             # renderizar fondo de créditos
             surf.blit(self.credits_bg, (0, 0))
-            surf.blit(self.game.huergo, (250, 10))
+            surf.blit(self.game.huergo, (240, 10))
             
             # renderizar texto de créditos
             self.render_credits_text(surf)
