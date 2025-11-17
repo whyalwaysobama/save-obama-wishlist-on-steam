@@ -75,7 +75,7 @@ class Menu:
             {"rect": pygame.Rect(22, 102, 63, 55), "id": 4, "name": "Nivel 4"},
             {"rect": pygame.Rect(280, 121, 20, 30), "id": 9, "name": "Nivel 9"},
             {"rect": pygame.Rect(155, 150, 115, 37), "id": 10, "name": "Nivel 10"},
-            #{"rect": pygame.Rect(157, 68, 45, 80), "id": 11, "name": "Nivel Secreto"},
+            {"rect": pygame.Rect(157, 68, 45, 80), "id": 11, "name": "Nivel Secreto"},
         ]
         
         self.easter_egg = pygame.Rect(2, 128, 17, 28)

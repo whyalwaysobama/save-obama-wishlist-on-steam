@@ -37,7 +37,7 @@ class Editor:
         self.tilemap = Tilemap(self, tile_size=16)
 
         try: 
-            self.tilemap.load("base.json")
+            self.tilemap.load("11.json")
 
         except FileNotFoundError:
             pass
@@ -139,6 +139,7 @@ class Editor:
                         self.tilemap.autotile()
                     if event.key == pygame.K_o :
                         self.tilemap.save('maps/11.json')
+
 
 
                 if event.type == pygame.KEYUP:
