@@ -62,7 +62,7 @@ class Tilemap:
 
     def check_obama_collision(self, player_rect):
         for tile in self.tiles_around((player_rect.centerx, player_rect.centery)):
-            if tile['type'] == 'obama' or tile['type'] == 'obamacolgado':
+            if tile['type'] == 'obama' or tile['type'] == 'obamacolgado'or tile['type'] == 'kimyputin':
                 obama_rect = pygame.Rect(
                     tile['pos'][0] * self.tile_size, 
                     tile['pos'][1] * self.tile_size, 

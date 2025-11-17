@@ -71,6 +71,7 @@ class Game:
             'barrier' : load_images('Tiles/barrier'),
             'obama' : load_images("Obama_PJ"),
             'obamacolgado' : load_images("Obama_PJ"),
+            'kimyputin' : load_images("Obama_PJ"),
             'laser' : load_images('Tiles/laser'),
             'soga' : load_images('Tiles/laser'),
             'barril' : load_images('Tiles/barbarril'),
@@ -78,6 +79,7 @@ class Game:
             'people' : load_images('Tiles/personas'),
             'pisos variables' : load_images('Tiles/pisos variables'),
             'elmatador' : load_images('Tiles/elmatador'),
+            'carteles' : load_images('Tiles/textos'),
             'totote_bg': load_image("DJ Totote Fondo/DJ totote prime.png", (320, 240)),
             'fabrica_bg' : load_image("fondo/fabrica.png", (320, 240)),
             'montaña_bg' : load_image("fondo/fondomontaña.png", (320, 240)),
@@ -146,8 +148,8 @@ class Game:
         saved_stars = self.save_progress.get_level_stars(level_id)
         self.game_state = "PLAYING"  # posición inicial
         self.player.velocity = [0, 0]  # velocidad en 0
-        self.player.air_time = 0      
-        self.player.dashing = False  
+        self.player.air_time = 0
+        self.player.dashing = False
         self.player.animation_locked = False
         self.player.dash_time = 0
         self.player.dash_cooldown = 30  
