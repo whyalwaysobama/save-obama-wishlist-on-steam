@@ -69,6 +69,7 @@ class Game:
             'barrier' : load_images('Tiles/barrier'),
             'obama' : load_images("Obama_PJ"),
             'obamacolgado' : load_images("Obama_PJ"),
+            'kimyputin' : load_images("Obama_PJ"),
             'laser' : load_images('Tiles/laser'),
             'soga' : load_images('Tiles/laser'),
             'barril' : load_images('Tiles/barbarril'),
@@ -144,8 +145,8 @@ class Game:
         saved_stars = self.save_progress.get_level_stars(level_id)
         self.game_state = "PLAYING"  # posición inicial
         self.player.velocity = [0, 0]  # velocidad en 0
-        self.player.air_time = 0      
-        self.player.dashing = False  
+        self.player.air_time = 0
+        self.player.dashing = False
         self.player.animation_locked = False
         self.player.dash_time = 0
         self.player.dash_cooldown = 30  
