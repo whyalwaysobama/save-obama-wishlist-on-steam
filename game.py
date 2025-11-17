@@ -33,6 +33,8 @@ class Game:
             8: {'max_time': 60, 'start_pos': [0, 115], 'background' : 'pradera_bg'},
             9: {'max_time': 90, 'start_pos': [0, 115], 'background' : 'sombra_bg'},
             10: {'max_time': 90, 'start_pos': [0, 115], 'background' : 'epico_bg'},
+            11: {'max_time': 901111, 'start_pos': [0, 115], 'background' : 'epico_bg'},
+    
             
 
         }
@@ -77,6 +79,7 @@ class Game:
             'people' : load_images('Tiles/personas'),
             'pisos variables' : load_images('Tiles/pisos variables'),
             'elmatador' : load_images('Tiles/elmatador'),
+            'carteles' : load_images('Tiles/textos'),
             'totote_bg': load_image("DJ Totote Fondo/DJ totote prime.png", (320, 240)),
             'fabrica_bg' : load_image("fondo/fabrica.png", (320, 240)),
             'montaña_bg' : load_image("fondo/fondomontaña.png", (320, 240)),
