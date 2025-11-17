@@ -48,7 +48,7 @@ class Game:
             8: '8.json',
             9: '9.json',
             10: '10.json',
-            11: 'secreto.json',
+            11: '11.json',
         }
         self.slowmo = False
         
