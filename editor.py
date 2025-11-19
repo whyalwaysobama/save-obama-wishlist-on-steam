@@ -141,7 +141,7 @@ class Editor:
                     if event.key == pygame.K_t :
                         self.tilemap.autotile()
                     if event.key == pygame.K_o :
-                        self.tilemap.save('maps/12.json')
+                        self.tilemap.save('maps/13.json')
 
 
 
