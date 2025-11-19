@@ -60,7 +60,6 @@ class SaveProgress:
                 json.dump(self.data, f, indent=4)
             return True
         except Exception as e:
-            print(f"Error al guardar: {e}")
             return False
     
     def load(self, slot):

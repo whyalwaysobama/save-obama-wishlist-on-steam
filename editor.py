@@ -33,8 +33,6 @@ class Editor:
             'pisos variables' : load_images('Tiles/pisos variables'),
             'carteles' : load_images('Tiles/textos'),
             'sign' : load_images('Tiles/cartel'),
-            
-            
         }
 
         self.movement = [False, False, False, False]
@@ -42,7 +40,7 @@ class Editor:
         self.tilemap = Tilemap(self, tile_size=16)
 
         try: 
-            self.tilemap.load("11.json")
+            self.tilemap.load("1.json")
 
         except FileNotFoundError:
             pass

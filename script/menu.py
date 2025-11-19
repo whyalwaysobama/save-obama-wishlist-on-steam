@@ -100,7 +100,6 @@ class Menu:
             level_id = self.selected_level['id']
             # Verificar si el nivel está desbloqueado antes de iniciar
             if self.game.save_progress.is_level_unlocked(level_id):
-                print(f"Iniciando {self.selected_level['name']} (ID: {level_id})")
                 self.game.start_game(level_id)
                 self.close_modal()
 

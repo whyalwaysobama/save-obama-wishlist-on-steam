@@ -56,6 +56,12 @@ class Game:
             12: '12.json',
             13: '13.json',
         }
+
+        self.level_reset_map = {
+            12 : 11,
+            13 : 11,
+        }
+    
         self.slowmo = False
         
         # estado del juego
@@ -81,6 +87,7 @@ class Game:
             'barril' : load_images('Tiles/barbarril'),
             'estrella' : load_images('Tiles/estrella'),
             'people' : load_images('Tiles/personas'),
+            'sign' : load_images('Tiles/cartel'),
             'pisos variables' : load_images('Tiles/pisos variables'),
             'elmatador' : load_images('Tiles/elmatador'),
             'carteles' : load_images('Tiles/textos'),
@@ -151,6 +158,7 @@ class Game:
         if not self.load_level(level_id):
             return
         saved_stars = self.save_progress.get_level_stars(level_id)
+        
         self.game_state = "PLAYING"  # posición inicial
         self.player.velocity = [0, 0]  # velocidad en 0
         self.player.air_time = 0
@@ -229,7 +237,9 @@ class Game:
                     self.game_state = "LOSE"
 
                 if self.tilemap.check_sign_collision (self.player.rect()) :
-                    self.current_level += 1
+                    next_level = self.current_level + 1
+                    if next_level in self.level_maps:
+                        self.start_game(next_level)
             
             elif self.game_state == "LOSE":
                     self.menu.show_death()
