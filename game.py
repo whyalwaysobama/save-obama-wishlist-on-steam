@@ -123,7 +123,7 @@ class Game:
         self.huergo = load_image("logo.png", (80, 80))
         
         # crear entidades del juego
-        self.player = Player(self, (50, 50), (11, 16))
+        self.player = Player(self, (50, 50), (12, 16))
         self.tilemap = Tilemap(self, tile_size=16)
 
         # crear menú
@@ -153,12 +153,14 @@ class Game:
         else:
             return False
 
-    def start_game(self, level_id=1):
+    def start_game(self, level_id=1, is_retry = False):
         # inicia el juego
+        if is_retry and level_id in self.level_reset_map :
+            level_id = self.level_reset_map[level_id]
+
         if not self.load_level(level_id):
             return
         saved_stars = self.save_progress.get_level_stars(level_id)
-        
         self.game_state = "PLAYING"  # posición inicial
         self.player.velocity = [0, 0]  # velocidad en 0
         self.player.air_time = 0
@@ -281,7 +283,7 @@ class Game:
                             self.slowmo = True
                             self.fps = 30
                         if event.key == pygame.K_r:
-                            self.start_game(self.current_level)
+                            self.start_game(self.current_level, is_retry=True)
                     if event.type == pygame.KEYUP:
                         if event.key == pygame.K_LEFT or event.key == pygame.K_a:
                             self.movement[0] = False
