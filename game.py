@@ -33,7 +33,9 @@ class Game:
             8: {'max_time': 60, 'start_pos': [0, 115], 'background' : 'pradera_bg'},
             9: {'max_time': 90, 'start_pos': [0, 115], 'background' : 'sombra_bg'},
             10: {'max_time': 90, 'start_pos': [0, 115], 'background' : 'epico_bg'},
-            11: {'max_time': 901111, 'start_pos': [0, 115], 'background' : 'epico_bg'},
+            11: {'max_time': 901111, 'start_pos': [0, 115], 'background' : 'ciudadnoche.png'},
+            12: {'max_time': 901111, 'start_pos': [0, 115], 'background' : 'epico_bg'},
+            13: {'max_time': 901111, 'start_pos': [0, 115], 'background' : 'epico_bg'},
     
             
 
@@ -51,6 +53,8 @@ class Game:
             9: '9.json',
             10: '10.json',
             11: '11.json',
+            12: '12.json',
+            13: '13.json',
         }
         self.slowmo = False
         
@@ -222,6 +226,9 @@ class Game:
 
                 if self.tilemap.check_spikes_collision (self.player.rect()) :
                     self.game_state = "LOSE"
+
+                if self.tilemap.check_sign_collision (self.player.rect()) :
+                    self.current_level += 1
             
             elif self.game_state == "LOSE":
                     self.menu.show_death()

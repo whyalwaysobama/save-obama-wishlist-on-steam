@@ -99,6 +99,19 @@ class Tilemap:
                     return True
         return False
 
+    def check_sign_collision(self, player_rect):
+        for tile in self.tiles_around((player_rect.centerx, player_rect.centery)):
+            if tile['type'] == 'cartel':
+                sign_rect = pygame.Rect(
+                    tile['pos'][0] * self.tile_size, 
+                    tile['pos'][1] * self.tile_size, 
+                    self.tile_size, 
+                    self.tile_size
+                )
+                if player_rect.colliderect(sign_rect):
+                    return True
+        return False
+
     def check_star_collision(self, player_rect):
         for tile in self.tiles_around((player_rect.centerx, player_rect.centery)):
             if tile['type'] == 'estrella':
