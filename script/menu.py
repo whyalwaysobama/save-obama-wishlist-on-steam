@@ -108,7 +108,7 @@ class Menu:
         level_id = getattr(self.game, 'current_level', None)
         if level_id is None:
             level_id = 'tutorial'
-        self.game.start_game(level_id)
+        self.game.start_game(level_id, is_retry=True)
         # limpiar estado del menú por si quedó abierto
         self.modal_open = False
         self.selected_level = None
