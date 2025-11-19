@@ -32,6 +32,9 @@ class Editor:
             'elmatador' : load_images('Tiles/elmatador'),
             'pisos variables' : load_images('Tiles/pisos variables'),
             'carteles' : load_images('Tiles/textos'),
+            'sign' : load_images('Tiles/cartel'),
+            
+            
         }
 
         self.movement = [False, False, False, False]
