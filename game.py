@@ -34,7 +34,7 @@ class Game:
             9: {'max_time': 90, 'start_pos': [0, 115], 'background' : 'sombra_bg'},
             10: {'max_time': 90, 'start_pos': [0, 115], 'background' : 'epico_bg'},
             11: {'max_time': 60, 'start_pos': [0, 115], 'background' : 'ciudadnoche_bg'},
-            12: {'max_time': 901111, 'start_pos': [0, 115], 'background' : 'epico_bg'},
+            12: {'max_time': 901111, 'start_pos': [0, 115], 'background' : 'alcantarilla_bg'},
             13: {'max_time': 901111, 'start_pos': [0, 115], 'background' : 'epico_bg'},
     
             
@@ -100,6 +100,7 @@ class Game:
             'epico_bg' : load_image("fondo/obamaepico.png", (320, 240)),
             'granada_bg' : load_image("fondo/granada.png", (320, 240)),
             'ciudadnoche_bg' : load_image("fondo/ciudadnoche.png", (320, 240)),
+            'alcantarilla_bg' : load_image("fondo/alcantarilla.png", (320, 240)),
             'player/idle' : Animation(load_images("Reptiliano PJ/idle"), img_dur=18),
             'player/run' : Animation(load_images("Reptiliano PJ/run"), img_dur=6),
             'player/jump' : Animation(load_images("Reptiliano PJ/jump"), img_dur=10, loop=False),
