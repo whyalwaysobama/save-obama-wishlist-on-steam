@@ -431,6 +431,9 @@ class Menu:
                     self.play_modal_button.is_clicked(scaled_mouse_pos, mouse_clicked, disabled=not is_unlocked)
                     self.close_modal_button.is_clicked(scaled_mouse_pos, mouse_clicked)
             else:
+                if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                    self.show_saves()
+
                 # verificar clicks en zonas de niveles
                 if mouse_clicked:
                     for zone in self.level_zones:
