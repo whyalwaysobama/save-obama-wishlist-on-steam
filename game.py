@@ -35,7 +35,7 @@ class Game:
             10: {'max_time': 90, 'start_pos': [0, 115], 'background' : 'epico_bg'},
             11: {'max_time': 60, 'start_pos': [0, 115], 'background' : 'ciudadnoche_bg'},
             12: {'max_time': 901111, 'start_pos': [0, 115], 'background' : 'alcantarilla_bg'},
-            13: {'max_time': 901111, 'start_pos': [0, 115], 'background' : 'bosque_bg'},
+            13: {'max_time': 50, 'start_pos': [0, 115], 'background' : 'bosque_bg'},
     
             
 
