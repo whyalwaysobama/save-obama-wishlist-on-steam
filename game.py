@@ -34,7 +34,7 @@ class Game:
             9: {'max_time': 90, 'start_pos': [0, 115], 'background' : 'sombra_bg'},
             10: {'max_time': 90, 'start_pos': [0, 115], 'background' : 'epico_bg'},
             11: {'max_time': 60, 'start_pos': [0, 115], 'background' : 'ciudadnoche_bg'},
-            12: {'max_time': 50, 'start_pos': [0, 115], 'background' : 'alcantarilla_bg'},
+            12: {'max_time': 40, 'start_pos': [0, 115], 'background' : 'alcantarilla_bg'},
             13: {'max_time': 40, 'start_pos': [0, 115], 'background' : 'bosque_bg'},
     
             
@@ -52,7 +52,7 @@ class Game:
             8: '8.json',
             9: '9.json',
             10: '10.json',
-            11: '12.json',
+            11: '13.json',
             12: '12.json',
             13: '13.json',
         }
