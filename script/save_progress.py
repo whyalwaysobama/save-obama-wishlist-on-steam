@@ -43,6 +43,8 @@ class SaveProgress:
                 '9': {'stars': 0, 'completed': False, 'best_time': None},
                 '10': {'stars': 0, 'completed': False, 'best_time': None},
                 '11': {'stars': 0, 'completed': False, 'best_time': None},
+                '12': {'stars': 0, 'completed': False, 'best_time': None},
+                '13': {'stars': 0, 'completed': False, 'best_time': None},
             },
             'created_at': None,
             'last_played': None,
